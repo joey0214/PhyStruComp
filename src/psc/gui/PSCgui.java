@@ -26,9 +26,10 @@ import psc.Structure.StructureAligner;
 public class PSCgui extends JFrame implements ActionListener 
 {    
     //***** menu *****
-    private JMenu fileMenu, helpMenu;
+    private JMenu fileMenu, helpMenu,analysisMenu;
     private JMenuBar menuBar;
-    private JMenuItem loadItem, appendItem, exitItem, aboutItem;
+    private JMenuItem loadItem, appendItem, exitItem, aboutItem,alignItem,calculateRMSDItem;
+    private JMenuItem buildTreeItem;
     //***** frame *****
    public static  JSplitPane proseqSiltPane;
     private JSplitPane secseqSiltPane;
@@ -86,11 +87,25 @@ public class PSCgui extends JFrame implements ActionListener
 
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(this);
+        
+        alignItem = new JMenuItem("Align");
+        alignItem.addActionListener(this);
+        
+        calculateRMSDItem = new JMenuItem("Calcunate RMSD");
+        calculateRMSDItem.addActionListener(this);
+        
+        buildTreeItem = new JMenuItem("Build Tree");
+        buildTreeItem.addActionListener(this);
 
         fileMenu = new JMenu("File");
         fileMenu.add(loadItem);
         fileMenu.add(appendItem);
         fileMenu.add(exitItem);
+        
+        analysisMenu = new JMenu("Analysis");
+        analysisMenu.add(alignItem);
+        analysisMenu.add(calculateRMSDItem);
+        analysisMenu.add(buildTreeItem);
 
         aboutItem = new JMenuItem("About");
         aboutItem.addActionListener(this);
@@ -102,6 +117,7 @@ public class PSCgui extends JFrame implements ActionListener
         //******** menu bar *****
         menuBar = new JMenuBar();
         menuBar.add(fileMenu);
+        menuBar.add(analysisMenu);
         menuBar.add(helpMenu);
         setJMenuBar(menuBar);
         
