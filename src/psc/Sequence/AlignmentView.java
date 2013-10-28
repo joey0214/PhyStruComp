@@ -15,12 +15,12 @@ import javax.swing.ToolTipManager;
  */
 public class AlignmentView 
 {
-    private int firstRes ;
-    private int lastRes ;
-    private int firstSeq;
-    private int lastSeq ;
-    private int charHeight ;
-    private int charWidth;
+    int firstRes ;
+    int lastRes ;
+    int firstSeq;
+    int lastSeq ;
+    int charHeight ;
+    int charWidth;
     Color textColor = Color.black;
     boolean antiAlias=false;
     boolean renderGaps = true;
