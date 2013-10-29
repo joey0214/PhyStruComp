@@ -8,6 +8,8 @@ package test;
  *
  * @author zhongxf
  */
-public class AlignmentVIewTest {
+public class AlignmentVIewTest 
+{
+    
     
 }

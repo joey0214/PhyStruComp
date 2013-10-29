@@ -26,6 +26,7 @@ public class AlignmentView
     boolean renderGaps = true;
     private Alignment alignment ;
     Font font;
+   SequenceGrouping selectionGroup;
     boolean validCharWidth;
     private ColorSchemeI colorScheme;
     private ColumnSelection colSel = new ColumnSelection();
@@ -101,7 +102,7 @@ public class AlignmentView
         this.charHeight = newheight;
     }
     
-    public int getWidth()
+    public int getCharWidth()
     {
         return charWidth;
     }
@@ -187,5 +188,16 @@ public class AlignmentView
             lastseq = 0;
         }
         this.lastSeq = lastseq;
+    }
+    
+    public SequenceGrouping getSelectionGroup()
+    {
+        return selectionGroup;
+    }
+
+ 
+    public void setSelectionGroup(SequenceGrouping sg)
+    {
+        selectionGroup = sg;
     }
 }
