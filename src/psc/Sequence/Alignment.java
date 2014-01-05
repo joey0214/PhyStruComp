@@ -26,64 +26,65 @@ public class Alignment
     private int[] columnIndex;
     private HashMap<String,Sequence> nameMapSeq ;
     private String[] seqNames ;
+    private int noOfSeq;
 
    
     
 
-    public Alignment(int seqsCount, int gapCount, int length) {
-        this.seqsCount = seqsCount;
-        this.gapCount = gapCount;
-        this.length = length;
-    }
+//    public Alignment(int seqsCount, int gapCount, int length) {
+//        this.seqsCount = seqsCount;
+//        this.gapCount = gapCount;
+//        this.length = length;
+//    }
     
 
-    public Alignment(int seqsCount, int gapCount) {
-        this.seqsCount = seqsCount;
-        this.gapCount = gapCount;
-    }
+//    public Alignment(int seqsCount, int gapCount) {
+//        this.seqsCount = seqsCount;
+//        this.gapCount = gapCount;
+//    }
 
-    public Alignment() {
-    }
+//    public Alignment() {
+//    }
     
-    public Alignment(Sequence[] seqs,int type)
-    {
-        createAlignment(seqs, type);
-    }
+//    public Alignment(Sequence[] seqs,int type)
+//    {
+//        createAlignment(seqs, type);
+//    }
+//    
+//    public Alignment(ProteinSequence[] proseqs)
+//    {
+//        createAlignment3(proseqs);
+//    }
+
+//    private void createAlignment(Sequence[] seqs, int type) 
+//    {
+//        if (type == 0) //nucleid acid symbol
+//        {
+//            createAlignment1(seqs);
+//        }
+//        
+//        if (type == 1)//amino acid symbol
+//        {
+//            createAlignment2(seqs);
+//        }
+//    }
+
     
-    public Alignment(ProteinSequence[] proseqs)
-    {
-        createAlignment3(proseqs);
-    }
 
-    private void createAlignment(Sequence[] seqs, int type) 
-    {
-        if (type == 0) //nucleid acid symbol
-        {
-            createAlignment1(seqs);
-        }
-        
-        if (type == 1)//amino acid symbol
-        {
-            createAlignment2(seqs);
-        }
-    }
-
-    
-
-    private void createAlignment1(Sequence[] seqs) 
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void createAlignment2(Sequence[] seqs) 
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    private void createAlignment3(ProteinSequence[] proseqs) 
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    private void createAlignment1(Sequence[] seqs) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//
+//    private void createAlignment2(Sequence[] seqs) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
+//    
+//    private void createAlignment3(ProteinSequence[] proseqs) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
     
     public void gapProfile()
     {
@@ -167,6 +168,16 @@ public class Alignment
     public void setwidth(int newWidth)
     {
         this.length = newWidth;
+    }
+    
+    public int getNoOfSeq() 
+    {
+        return noOfSeq;
+    }
+    
+    public void setNoOfSeq(int noOfSeq) 
+    {
+        this.noOfSeq = noOfSeq;
     }
     
     public int getSeqCount()
