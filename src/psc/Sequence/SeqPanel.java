@@ -89,23 +89,27 @@ public class SeqPanel extends JPanel implements  MouseListener,
     }
 
     @Override
-    public void mousePressed(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mousePressed(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseReleased(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseEntered(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseEntered(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseExited(MouseEvent me) 
+    {
+        
     }
 
     @Override
@@ -125,8 +129,9 @@ public class SeqPanel extends JPanel implements  MouseListener,
     }
 
     @Override
-    public void mouseDragged(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseDragged(MouseEvent me) 
+    {
+       
     }
 
     @Override

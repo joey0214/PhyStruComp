@@ -53,16 +53,16 @@ public class AlignmentPanel extends  JSplitPane implements AdjustmentListener
         init();
         this.alignView = alignview;
         
-        seqPanel = new SeqPanel(alignView,this);
-        idPanel = new IdPanel(alignView, this);
-        scalePanel = new ScalePanel(alignView, this);
+        seqPanel = new SeqPanel(alignview,this);
+        idPanel = new IdPanel(alignview, this);
+        scalePanel = new ScalePanel(alignview, this);
         
         idPanelHolder.add(idPanel, BorderLayout.CENTER);
         scalePanelHolder.add(scalePanel, BorderLayout.CENTER);
         seqPanelHolder.add(seqPanel, BorderLayout.CENTER);
         
-        scalePanelHolder.setPreferredSize(new Dimension(600, alignView.charHeight*2));
-        idTopSpace.setPreferredSize(new Dimension(200, alignView.charHeight*2));
+        scalePanelHolder.setPreferredSize(new Dimension(600, alignview.charHeight*2));
+        idTopSpace.setPreferredSize(new Dimension(200, alignview.charHeight*2));
         
         setScrollValues(0,0);
         

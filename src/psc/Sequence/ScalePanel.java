@@ -40,18 +40,21 @@ class ScalePanel extends JPanel implements  MouseMotionListener,MouseListener
     
 
     @Override
-    public void mouseDragged(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseDragged(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseMoved(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseMoved(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseClicked(MouseEvent me) 
+    {
+        
     }
 
     @Override
@@ -71,18 +74,22 @@ class ScalePanel extends JPanel implements  MouseMotionListener,MouseListener
     }
 
     @Override
-    public void mouseReleased(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseReleased(MouseEvent me)
+    {
+        
+        
     }
 
     @Override
     public void mouseEntered(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseExited(MouseEvent me) 
+    {
+                       
     }
 
     private void drawScale(Graphics gg, int startX, int endX, int width, int height) 

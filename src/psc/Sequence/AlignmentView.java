@@ -26,7 +26,7 @@ public class AlignmentView
     boolean renderGaps = true;
     private Alignment alignment ;
     Font font;
-   SequenceGrouping selectionGroup;
+    SequenceGrouping selectionGroup;
     boolean validCharWidth;
     private ColorSchemeI colorScheme;
     private ColumnSelection colSel = new ColumnSelection();
@@ -42,9 +42,9 @@ public class AlignmentView
     private void init() 
     {
         this.firstRes =0;
-        this.lastRes = getAlignment().getWidth();
+        this.lastRes = getAlignment().getWidth()-1;
         this.firstSeq =0;
-        this.lastSeq = getAlignment().getHeight();
+        this.lastSeq = getAlignment().getHeight()-1;
         
         antiAlias = false;
         

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package psc.gui;
+package psc.IO;
 
 import java.awt.Component;
 import java.awt.GridLayout;
@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import org.biojava.bio.symbol.IllegalSymbolException;
+import psc.gui.PSCgui;
 
 /**
  *

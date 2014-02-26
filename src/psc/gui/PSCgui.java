@@ -7,6 +7,9 @@ package psc.gui;
  * @author zhongxf
  */
 
+import psc.IO.AppendPDB;
+import psc.IO.LoadSecondSeq;
+import psc.IO.LoadPDB;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
@@ -31,7 +34,7 @@ public class PSCgui extends JFrame implements ActionListener
     private JMenuItem loadItem, appendItem, exitItem, aboutItem,alignItem,calculateRMSDItem;
     private JMenuItem buildTreeItem;
     //***** frame *****
-   public static  JSplitPane proseqSiltPane;
+    public static  JSplitPane proseqSiltPane;
     private JSplitPane secseqSiltPane;
     private JPanel structPanel, secseqPanel,  proseqPanel,toolPanel, appPanel,outputPanel;
     //pdb_textarea just for pdb display at the monment
@@ -126,9 +129,9 @@ public class PSCgui extends JFrame implements ActionListener
         //+++++++++++++++++ frame ++++++++++++++++++++++++++++++++++++++++++++++
         //  frame size
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        setSize(800, 1000);//
-        //setSize((screen.width * 2) / 3, (screen.height * 7) / 8);
-        setLocation(screen.width / 6, screen.height / 6);
+//        setSize(800, 1000);//
+        setSize(screen.width , screen.height );
+//        setLocation(screen.width / 6, screen.height / 6);
 
         //*****frame*****
         JComponent pane;
@@ -275,6 +278,7 @@ public class PSCgui extends JFrame implements ActionListener
         //pdb viewer jmol     
         jmolPanel = new JmolPanel();
         jmolPanel.setPreferredSize(new Dimension(400, 400));
+//        jmolPanel.setPreferredSize(new Dimension(screen.width/2, screen.height/2));
         c.weightx = 1;
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
@@ -359,7 +363,7 @@ public class PSCgui extends JFrame implements ActionListener
             try 
             {
                 try {
-                    psc.gui.AppendPDB appendPDB1 = new  AppendPDB();
+                    psc.IO.AppendPDB appendPDB1 = new  AppendPDB();
                 } catch (IllegalSymbolException ex) {
                     Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -405,7 +409,7 @@ public class PSCgui extends JFrame implements ActionListener
             try 
             {
                 try {
-                    psc.gui.AppendPDB appendPDB1 = new AppendPDB();
+                    psc.IO.AppendPDB appendPDB1 = new AppendPDB();
                 } catch (IllegalSymbolException ex) {
                     Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
                 }

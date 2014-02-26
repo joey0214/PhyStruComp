@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package psc.gui;
+package psc.IO;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 import org.biojava.bio.structure.StructureException;
 import org.biojava.bio.symbol.IllegalSymbolException;
+import psc.gui.PSCgui;
 
 /**
  *

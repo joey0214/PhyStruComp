@@ -9,6 +9,7 @@ package psc.gui;
  *
  * @author zhongxf
  */
+import psc.IO.LoadPDB;
 import psc.Table.PSCTable;
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -4,7 +4,12 @@
  */
 package test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JFrame;
 import psc.Sequence.Alignment;
+import psc.Sequence.AlignmentPanel;
+import psc.Sequence.AlignmentView;
 import psc.Sequence.Sequence;
 
 /**
@@ -16,23 +21,92 @@ public class AlignmentVIewTest
     
     public static void main(String args[]) 
     {
-        Sequence testSeq1 = new Sequence("test", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
-        Sequence testSeq2 = new Sequence("test", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
-        Sequence[] seqarray = {testSeq1,testSeq2};
-        Alignment testAlignment = new Alignment(seqarray, 0);
+        Sequence testSeq1 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq2 = new Sequence("test2", "AAACTGCGACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+//        Sequence[] seqarray = {testSeq1,testSeq2};
+        Sequence[] seqarray =new Sequence[2];
+        seqarray[0] = testSeq1;
+        seqarray[1] = testSeq2;
+        
+        Alignment testAlignment = toAlignment(seqarray);
         
         if (testAlignment != null)
         {
             System.out.println("true");
         }
+        
+        AlignmentView testView = new AlignmentView(testAlignment);
+        if (testView == null)
+        {
+            System.out.println("test alignment null");
+        }
+        
+        AlignmentPanel alignmentPanel = new  AlignmentPanel(testView);
+         if (alignmentPanel == null)
+        {
+            System.out.println("test alignment null");
+        }
+        
+        JFrame mainFrame = new JFrame("Test on alignment");
+         mainFrame.add(alignmentPanel);
+         mainFrame.setSize(800, 800);
+         mainFrame.setVisible(true);
      }
+
+    private static Alignment toAlignment(Sequence[] seqarray) 
+    {
+        Alignment ali=new Alignment();
+//        Fasta fa=(Fasta)sio;
+        
+        int length=0 ;
+        for (int i=0; i< seqarray.length; i++)
+        {
+            if (seqarray[i].getSeqChar().length > length)
+            {
+                length = seqarray[i].getSeqChar().length ;
+            }
+        }
+        
+        int noOfSeq=seqarray.length;
+        int[] index=new int[noOfSeq];
+        String[] names=new String[noOfSeq];
+        HashMap nameMap=new HashMap<String,Sequence>();
+        ArrayList seqs=new ArrayList<Sequence>(noOfSeq);
+        for(int i=0;i<noOfSeq;i++){
+            index[i]=i;
+            Sequence seq=seqarray[i];
+            names[i]=seq.getSeqName();
+            nameMap.put(seq.getSeqName(), seq);
+            char[] aseq=new char[length];
+            char[] oseq=seq.getSeqChar();
+            int olength=seq.getLength();
+            int j=0;
+            for(;j<olength;j++){
+                aseq[j]=oseq[j];
+            }
+            for(;j<length;j++){
+                aseq[j]=' ';
+            }
+            seq.setSeqChar(aseq);
+            seqs.add(seq);
+        }
+        ali.setLength(length);
+        ali.setNoOfSeq(noOfSeq);
+        ali.setIndex(index);
+        ali.setSeqNmaes(names);
+        ali.setNameMapSeq(nameMap);
+        ali.setSeqs(seqs);
+        ali.gapProfile();
+        
+        return ali;
+    }
     
     public void AlignmentViewTest()
     {
         Sequence testSeq1 = new Sequence("test", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
         Sequence testSeq2 = new Sequence("test", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
         Sequence[] seqarray = {testSeq1,testSeq2};
-        Alignment testAlignment = new Alignment(seqarray, 0);
+        Alignment testAlignment = toAlignment(seqarray);
         
         if (testAlignment != null)
         {

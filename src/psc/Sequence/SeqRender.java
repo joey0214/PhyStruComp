@@ -50,6 +50,18 @@ public class SeqRender
         }
     }
     
+    public void drawSequence(Sequence sequence, int start, int end, int y1)
+    {
+        drawBoxes(sequence, start, end, y1);
+        
+        if (alignView.validCharWidth)
+        {
+            drawText(sequence, start, end, y1);
+        }
+    }
+    
+    
+    
     //多进程加锁？？ synchronized能够保证在同一时刻最多只有一个线程执行该段代码
     public void drawBoxes(Sequence seq, int startI, int endI, int y1)
     {

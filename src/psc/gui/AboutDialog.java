@@ -3,6 +3,8 @@
  * and open the template in the editor.
  */
 package psc.gui;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Box;
@@ -11,6 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import sun.awt.X11.Screen;
 
 /**
  *
@@ -23,7 +27,11 @@ public class AboutDialog extends JDialog
         super(parent, "About Dialog", true);
         
         Box box = Box.createVerticalBox();
-        box.add(new JLabel("asdfghjkl;"));
+        String message = "This prigram is comparsing structres and displaying them; and using differences to build phylogenetics tree."
+                + "\n" + "Any problem, contact with joey0576@163.com";
+        JTextArea textArea = new JTextArea(message);
+        textArea.setLineWrap(true);
+        box.add(textArea);
         box.add(Box.createGlue());
         getContentPane().add(box, "Center");
         
@@ -40,6 +48,8 @@ public class AboutDialog extends JDialog
             }
         });
         
-        setSize(300, 200);    
+        setSize(300, 200);  
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(screen.width/2,screen.height/2);
     }
 }

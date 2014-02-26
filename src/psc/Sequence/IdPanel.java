@@ -31,9 +31,10 @@ class IdPanel extends  JPanel implements  MouseListener,
     {
         this.setBackground(Color.white);
         this.alignView = av;
-        alignPanel = ap;
+        this.alignPanel = ap;
         
-        idCanvas = new IdCanvas(alignView);
+        idCanvas = new IdCanvas(av);
+
         setLayout(new BorderLayout());
         add(idCanvas, BorderLayout.CENTER);
         addMouseListener(this);
@@ -44,8 +45,9 @@ class IdPanel extends  JPanel implements  MouseListener,
     
 
     @Override
-    public void mouseClicked(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseClicked(MouseEvent me) 
+    {
+        
     }
 
     @Override
@@ -85,13 +87,15 @@ class IdPanel extends  JPanel implements  MouseListener,
     }
 
     @Override
-    public void mouseEntered(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseEntered(MouseEvent me) 
+    {
+        
     }
 
     @Override
-    public void mouseExited(MouseEvent me) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mouseExited(MouseEvent me) 
+    {
+        
     }
 
     @Override
