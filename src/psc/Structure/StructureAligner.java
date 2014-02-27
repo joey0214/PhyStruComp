@@ -282,7 +282,7 @@ public class StructureAligner
     private void localMustang() throws IOException 
     {
         LocalMUSTANG mustang = new LocalMUSTANG();
-        mustang.runLocalMUSTANG(PSCgui.displayInGUI2.getFilesName(), PSCgui.displayInGUI2.getFilePath());
+        mustang.runLocalMUSTANG(PSCgui.inputHub.getFilesName(), PSCgui.inputHub.getFilePath());
         mustang.exeractSuperoimposed();
         //PSCgui.jmolPanel.setStructure(mustang.getSuperimposed());
         this.structures = mustang.getAlignedStructure();

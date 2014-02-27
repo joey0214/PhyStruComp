@@ -189,8 +189,8 @@ public class RMSDFrame extends JFrame implements ActionListener
 
     private Component createTable() throws IOException {
         // pdbInput = AlignStruct.structAligns;
-         pdbInput = PSCgui.displayInGUI2.getStructure();
-         strNAme = PSCgui.displayInGUI2.getStructNames();
+         pdbInput = PSCgui.inputHub.getStructure();
+         strNAme = PSCgui.inputHub.getStructNames();
         //strNAme = AlignStruct.structNameArray;
         rmsdMartix = Calculate(pdbInput);
         int rowNumber = strNAme.length ;
@@ -199,7 +199,7 @@ public class RMSDFrame extends JFrame implements ActionListener
         int columnNumber = strNAme.length ;
 
         
-        headers = PSCgui.displayInGUI2.getStructNames();
+        headers = PSCgui.inputHub.getStructNames();
         System.out.println(headers.length);
         for (int i = 0; i < headers.length; i++)
         {
