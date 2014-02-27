@@ -22,7 +22,7 @@ import psc.Structure.StructureFactory;
  *
  * @author zhongxf
  */
-public class DisplayInGUI2 
+public class InputHub 
 {
     private Structure[] dispStructs = null;
     private ProteinSequence[] dispProseq = null;
@@ -275,6 +275,6 @@ public class DisplayInGUI2
 
         
 //        PSCgui.proseqSiltPane.setRightComponent(seqPainter.getproPanel());
-        PSCgui.proseqSiltPane.setRightComponent(jScrollPane);
+//        PSCgui.proseqSiltPane.setRightComponent(jScrollPane);
     }
 }

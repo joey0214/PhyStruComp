@@ -96,22 +96,26 @@ public class SeqCanvas extends JComponent
         gg.drawImage(imgBuff, 0, 0, this);
         
     }
-    
-    void drawPanel(Graphics g1, int startRes , int endRes, 
-            int startSeq, int endSeq, int offset)
+        
+    void drawPanel(Graphics g1, int startRes, int endRes, int startSeq, int endSeq, int offset)
     {
+
         int screenY = 0;
         int blockStart = startRes;
         int blockEnd = endRes;
+
         
+
         if (screenY <= (endRes - startRes))
         {
-            blockEnd = blockStart + (endRes -startRes) -screenY;
+            blockEnd = blockStart + (endRes - startRes) - screenY;
             g1.translate(screenY * alignmView.charWidth, 0);
-            drawPanel(g1, blockStart, blockEnd, startSeq, endSeq, offset);
-            
+            draw(g1, blockStart, blockEnd, startSeq, endSeq, offset);
+
             g1.translate(-screenY * alignmView.charWidth, 0);
         }
+    
+
     }
     
     void draw(Graphics graphic, int startResI, int endResI, 

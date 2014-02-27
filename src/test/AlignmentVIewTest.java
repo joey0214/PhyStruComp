@@ -7,6 +7,7 @@ package test;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import psc.IO.AlignmentIO;
 import psc.Sequence.Alignment;
 import psc.Sequence.AlignmentPanel;
 import psc.Sequence.AlignmentView;
@@ -21,14 +22,25 @@ public class AlignmentVIewTest
     
     public static void main(String args[]) 
     {
-        Sequence testSeq1 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
-        Sequence testSeq2 = new Sequence("test2", "AAACTGCGACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq1 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq2 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq3 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq4 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        Sequence testSeq5 = new Sequence("test2", "AAACTGCGACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
 //        Sequence[] seqarray = {testSeq1,testSeq2};
-        Sequence[] seqarray =new Sequence[2];
+        Sequence[] seqarray =new Sequence[5];
         seqarray[0] = testSeq1;
         seqarray[1] = testSeq2;
+        seqarray[2] = testSeq3;
+        seqarray[3] = testSeq4;
+        seqarray[4] = testSeq5;
         
-        Alignment testAlignment = toAlignment(seqarray);
+//       
+        AlignmentIO testI = new AlignmentIO();
+        testI.loadAlignment(seqarray);
+        Alignment testAlignment = testI.getAlignment();
+        
+//        Alignment testAlignment = toAlignment(seqarray);
         
         if (testAlignment != null)
         {
@@ -36,13 +48,15 @@ public class AlignmentVIewTest
         }
         
         AlignmentView testView = new AlignmentView(testAlignment);
+        
         if (testView == null)
         {
             System.out.println("test alignment null");
         }
         
         AlignmentPanel alignmentPanel = new  AlignmentPanel(testView);
-         if (alignmentPanel == null)
+       
+        if (alignmentPanel == null)
         {
             System.out.println("test alignment null");
         }
@@ -97,6 +111,8 @@ public class AlignmentVIewTest
         ali.setNameMapSeq(nameMap);
         ali.setSeqs(seqs);
         ali.gapProfile();
+        
+       
         
         return ali;
     }
