@@ -24,8 +24,8 @@ import psc.Structure.StructureFactory;
  */
 public class InputHub 
 {
-    private Structure[] dispStructs = null;
-    private ProteinSequence[] dispProseq = null;
+    private Structure[] dispStructs ;
+    private ProteinSequence[] proteinSequences ;
     private File[] inFiles = null;
     private String[] structnames ;
     private StructureFactory structFactory = new StructureFactory();
@@ -39,7 +39,7 @@ public class InputHub
     
     public void setProseq(ProteinSequence[] proseqArray)
     {
-        this.dispProseq = proseqArray;
+        this.proteinSequences = proseqArray;
         
     }
     
@@ -49,7 +49,7 @@ public class InputHub
 //        extractFiles();
         structFactory.setInPDBfiles(inFiles);
         this.dispStructs = structFactory.getStructure();
-        this.dispProseq = structFactory.getProSeq();
+        this.proteinSequences = structFactory.getProSeq();
         this.structnames = structFactory.getStructureName();
     }
     
@@ -60,7 +60,7 @@ public class InputHub
     
     public ProteinSequence[] getProseq()
     {
-        return dispProseq;
+        return proteinSequences;
     }
     
     public String[] getStructNames()
@@ -89,17 +89,17 @@ public class InputHub
     }
     public void appendProseq(ProteinSequence[] appendProseq)
     {
-        if (dispProseq == null || (dispProseq !=null && dispProseq.length == 0))
+        if (proteinSequences == null || (proteinSequences !=null && proteinSequences.length == 0))
         {
-            this.dispProseq = appendProseq;
+            this.proteinSequences = appendProseq;
         }
         else 
         {
-            int renewLen = dispProseq.length + appendProseq.length;
+            int renewLen = proteinSequences.length + appendProseq.length;
             ProteinSequence[] renewProseq = new ProteinSequence[renewLen];
-            System.arraycopy(dispProseq, 0, renewProseq, 0, dispProseq.length);
-            System.arraycopy(appendProseq, 0, renewProseq, dispProseq.length, appendProseq.length);
-            this.dispProseq = renewProseq;
+            System.arraycopy(proteinSequences, 0, renewProseq, 0, proteinSequences.length);
+            System.arraycopy(appendProseq, 0, renewProseq, proteinSequences.length, appendProseq.length);
+            this.proteinSequences = renewProseq;
         }
     }
     
@@ -107,7 +107,7 @@ public class InputHub
     {
         structFactory.appendFiles(files);
         this.dispStructs = structFactory.getStructure();
-        this.dispProseq = structFactory.getProSeq();
+        this.proteinSequences = structFactory.getProSeq();
         this.structnames = structFactory.getStructureName();
         
 //        if (inFiles == null ||(inFiles != null && inFiles.length ==0))
@@ -127,9 +127,9 @@ public class InputHub
     }
     public void update() throws IllegalSymbolException
     {
-        if (dispStructs != null &&dispProseq.length !=0)
+        if (dispStructs != null &&proteinSequences.length !=0)
         {
-            if (dispProseq != null && dispProseq.length !=0)
+            if (proteinSequences != null && proteinSequences.length !=0)
             {
                 visulazation();
             }
@@ -137,7 +137,7 @@ public class InputHub
             {
                 
                 structFactory.setStructure(dispStructs);
-                this.dispProseq = structFactory.getProSeq();
+                this.proteinSequences = structFactory.getProSeq();
                 visulazation();
             }
         }
@@ -153,7 +153,7 @@ public class InputHub
     {
         StructureFactory structFactory = new StructureFactory();
         structFactory.setInPDBfiles(inFiles);
-        this.dispProseq = structFactory.getProSeq();
+        this.proteinSequences = structFactory.getProSeq();
         this.dispStructs = structFactory.getStructure();
         this.structnames = structFactory.getStructureName();
     }
@@ -230,7 +230,7 @@ public class InputHub
         final int labelHeight = 20;
         final int labelWidth = 50;
         final SeqPainter seqPainter = new SeqPainter();
-        seqPainter.setProteinSeq(dispProseq);
+        seqPainter.setProteinSeq(proteinSequences);
         JScrollPane jScrollPane = new JScrollPane(seqPainter.getproTsp());
 
         final JScrollBar vScrollBar = new JScrollBar(JScrollBar.VERTICAL,0,0,0,100);

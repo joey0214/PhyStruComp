@@ -35,8 +35,8 @@ public class AppendPDB
         else if (c == JFileChooser.APPROVE_OPTION) 
         {
             File[] pdbSelectedFiles = append_pdb_dialog.getSelectedFiles();
-            PSCgui.displayInGUI2.appendFiles(pdbSelectedFiles);
-            PSCgui.displayInGUI2.update();
+            PSCgui.inputHub.appendFiles(pdbSelectedFiles);
+            PSCgui.inputHub.update();
         }
     }
 }

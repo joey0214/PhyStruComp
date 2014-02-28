@@ -50,10 +50,10 @@ public class LoadSeqs
         }
         else if (c == JFileChooser.APPROVE_OPTION) 
         {
-            File pdbSelectedFiles[] = loadSeqDialog.getSelectedFiles();
-            PSCgui.displayInGUI2.setFile(pdbSelectedFiles);
-            PSCgui.displayInGUI2.update();  
-            PSCgui.outpuTextArea.append(pdbSelectedFiles.length + " seqeuences loaded");
+            File seqFiles[] = loadSeqDialog.getSelectedFiles();
+            PSCgui.inputHub.setFile(seqFiles);
+            PSCgui.inputHub.update();  
+            PSCgui.outpuTextArea.append(seqFiles.length + " seqeuences loaded");
         }        
     }
 

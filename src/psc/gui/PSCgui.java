@@ -60,7 +60,7 @@ public class PSCgui extends JFrame implements ActionListener
     public static JComboBox alignMethod;
     public static JTextArea outpuTextArea;
     public static JPanel rightAaPanel;
-    public static InputHub displayInGUI2;
+    public static InputHub inputHub;
    
     public PSCgui() 
     {
@@ -73,7 +73,7 @@ public class PSCgui extends JFrame implements ActionListener
 
     private void initComponents() 
     { 
-        displayInGUI2 = new InputHub();
+        inputHub = new InputHub();
         addWindowListener(new WindowAdapter() 
         {
             @Override
@@ -394,17 +394,17 @@ public class PSCgui extends JFrame implements ActionListener
             try 
             {
                 StructureAligner strucrAligner = new StructureAligner();
-                strucrAligner.setStructures(displayInGUI2.getStructure());
+                strucrAligner.setStructures(inputHub.getStructure());
                 strucrAligner.setAlignerMethod(alignMenthodInt);
                 strucrAligner.alignRun();
-                displayInGUI2.setStructure(strucrAligner.getAlignedStructure());
+                inputHub.setStructure(strucrAligner.getAlignedStructure());
                 
                 SeqAligner seqAligner = new SeqAligner();
-                seqAligner.setSequernce(displayInGUI2.getProseq());
+                seqAligner.setSequernce(inputHub.getProseq());
                 seqAligner.alignRun();
-                displayInGUI2.setProseq(seqAligner.getAlignedSeq());
+                inputHub.setProseq(seqAligner.getAlignedSeq());
 
-                displayInGUI2.update();               
+                inputHub.update();               
             } 
             catch (Exception ex)
             {
@@ -651,12 +651,12 @@ public class PSCgui extends JFrame implements ActionListener
     private void addJmol() 
     {
         jmolPanel = new JmolPanel();
-        jmolPanel.setPreferredSize(new Dimension(400, 400));
+        jmolPanel.setPreferredSize(new Dimension(screen.width *3/ 4, screen.height / 2));
 //        jmolPanel.setPreferredSize(new Dimension(screen.width/2, screen.height/2));
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.anchor = GridBagConstraints.NORTH;
+//        gbc.anchor = GridBagConstraints.NORTH;
         add(structPanel, jmolPanel, gbc, 0, 0, 1, 1);  
     }
 
