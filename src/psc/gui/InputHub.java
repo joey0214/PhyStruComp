@@ -43,7 +43,17 @@ public class InputHub
         
     }
     
-    public void setFile(File[] files) throws IOException
+    public void setSeqFile(File[] files) throws IOException
+    {
+        this.inFiles = files;
+//        extractFiles();
+        structFactory.setInPDBfiles(inFiles);
+        this.dispStructs = structFactory.getStructure();
+        this.proteinSequences = structFactory.getProSeq();
+        this.structnames = structFactory.getStructureName();
+    }
+    
+     public void setStructureFile(File[] files) throws IOException
     {
         this.inFiles = files;
 //        extractFiles();
@@ -127,6 +137,8 @@ public class InputHub
     }
     public void update() throws IllegalSymbolException
     {
+        
+        
         if (dispStructs != null &&proteinSequences.length !=0)
         {
             if (proteinSequences != null && proteinSequences.length !=0)
