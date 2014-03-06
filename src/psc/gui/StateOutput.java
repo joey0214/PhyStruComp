@@ -9,7 +9,7 @@ package psc.gui;
  * @author zhongxf
  */
 // to tell user the statement of program runing.
-class StateOutput 
+public class StateOutput 
 {
     public StateOutput() 
     {
@@ -20,7 +20,7 @@ class StateOutput
         PSCgui.outpuTextArea.append("PSC:> \n");
     } 
 
-    void addMessgae(String hello) 
+    public void addMessgae(String hello) 
     {
         PSCgui.outpuTextArea.append("PSC:> "+hello+ "\n");
         PSCgui.outpuTextArea.append("PSC:> \n");

@@ -24,8 +24,9 @@ import psc.Structure.StructureFactory;
  */
 public class InputHub 
 {
-    private Structure[] dispStructs ;
-    private ProteinSequence[] proteinSequences ;
+    private Structure[] structureList ;
+    private Sequence[] secSeqList, aaSeqList;
+    private ProteinSequence[] proteinSequencesList ;
     private File[] inFiles = null;
     private String[] structnames ;
     private StructureFactory structFactory = new StructureFactory();
@@ -34,12 +35,12 @@ public class InputHub
     
     public void setStructure(Structure[] structArray)
     {
-        this.dispStructs = structArray;
+        this.structureList = structArray;
     }
     
     public void setProseq(ProteinSequence[] proseqArray)
     {
-        this.proteinSequences = proseqArray;
+        this.proteinSequencesList = proseqArray;
         
     }
     
@@ -48,8 +49,8 @@ public class InputHub
         this.inFiles = files;
 //        extractFiles();
         structFactory.setInPDBfiles(inFiles);
-        this.dispStructs = structFactory.getStructure();
-        this.proteinSequences = structFactory.getProSeq();
+        this.structureList = structFactory.getStructure();
+        this.proteinSequencesList = structFactory.getProSeq();
         this.structnames = structFactory.getStructureName();
     }
     
@@ -58,19 +59,19 @@ public class InputHub
         this.inFiles = files;
 //        extractFiles();
         structFactory.setInPDBfiles(inFiles);
-        this.dispStructs = structFactory.getStructure();
-        this.proteinSequences = structFactory.getProSeq();
+        this.structureList = structFactory.getStructure();
+        this.proteinSequencesList = structFactory.getProSeq();
         this.structnames = structFactory.getStructureName();
     }
     
     public Structure[] getStructure()
     {
-        return dispStructs;
+        return structureList;
     }
     
     public ProteinSequence[] getProseq()
     {
-        return proteinSequences;
+        return proteinSequencesList;
     }
     
     public String[] getStructNames()
@@ -84,40 +85,40 @@ public class InputHub
     }
     public void appendStructure(Structure[] appendStruct)
     {
-        if (dispStructs == null|| (dispStructs != null && dispStructs.length ==0))
+        if (structureList == null|| (structureList != null && structureList.length ==0))
         {
-            this.dispStructs = appendStruct;
+            this.structureList = appendStruct;
         }
         else 
         {
-            int renewLen = dispStructs.length + appendStruct.length;
+            int renewLen = structureList.length + appendStruct.length;
             Structure[] renewStructures = new Structure[renewLen];
-            System.arraycopy(dispStructs, 0, renewStructures, 0, dispStructs.length);
-            System.arraycopy(appendStruct, 0, renewStructures, dispStructs.length, appendStruct.length);
-            this.dispStructs = renewStructures;
+            System.arraycopy(structureList, 0, renewStructures, 0, structureList.length);
+            System.arraycopy(appendStruct, 0, renewStructures, structureList.length, appendStruct.length);
+            this.structureList = renewStructures;
         }
     }
     public void appendProseq(ProteinSequence[] appendProseq)
     {
-        if (proteinSequences == null || (proteinSequences !=null && proteinSequences.length == 0))
+        if (proteinSequencesList == null || (proteinSequencesList !=null && proteinSequencesList.length == 0))
         {
-            this.proteinSequences = appendProseq;
+            this.proteinSequencesList = appendProseq;
         }
         else 
         {
-            int renewLen = proteinSequences.length + appendProseq.length;
+            int renewLen = proteinSequencesList.length + appendProseq.length;
             ProteinSequence[] renewProseq = new ProteinSequence[renewLen];
-            System.arraycopy(proteinSequences, 0, renewProseq, 0, proteinSequences.length);
-            System.arraycopy(appendProseq, 0, renewProseq, proteinSequences.length, appendProseq.length);
-            this.proteinSequences = renewProseq;
+            System.arraycopy(proteinSequencesList, 0, renewProseq, 0, proteinSequencesList.length);
+            System.arraycopy(appendProseq, 0, renewProseq, proteinSequencesList.length, appendProseq.length);
+            this.proteinSequencesList = renewProseq;
         }
     }
     
     public void appendFiles(File[] files) throws IOException
     {
         structFactory.appendFiles(files);
-        this.dispStructs = structFactory.getStructure();
-        this.proteinSequences = structFactory.getProSeq();
+        this.structureList = structFactory.getStructure();
+        this.proteinSequencesList = structFactory.getProSeq();
         this.structnames = structFactory.getStructureName();
         
 //        if (inFiles == null ||(inFiles != null && inFiles.length ==0))
@@ -137,19 +138,20 @@ public class InputHub
     }
     public void update() throws IllegalSymbolException
     {
+        structureUpdate();
+        alignmentUpdata();
         
-        
-        if (dispStructs != null &&proteinSequences.length !=0)
+        if (structureList != null &&proteinSequencesList.length !=0)
         {
-            if (proteinSequences != null && proteinSequences.length !=0)
+            if (proteinSequencesList != null && proteinSequencesList.length !=0)
             {
                 visulazation();
             }
             else 
             {
                 
-                structFactory.setStructure(dispStructs);
-                this.proteinSequences = structFactory.getProSeq();
+                structFactory.setStructure(structureList);
+                this.proteinSequencesList = structFactory.getProSeq();
                 visulazation();
             }
         }
@@ -165,8 +167,8 @@ public class InputHub
     {
         StructureFactory structFactory = new StructureFactory();
         structFactory.setInPDBfiles(inFiles);
-        this.proteinSequences = structFactory.getProSeq();
-        this.dispStructs = structFactory.getStructure();
+        this.proteinSequencesList = structFactory.getProSeq();
+        this.structureList = structFactory.getStructure();
         this.structnames = structFactory.getStructureName();
     }
 
@@ -175,7 +177,7 @@ public class InputHub
         proAlignmentUpdate();
      
       System.out.println("you are using displayindui2");
-        PSCgui.jmolPanel.setMultipleStructure(dispStructs);
+        PSCgui.jmolPanel.setMultipleStructure(structureList);
         
         //PSCmain.jmolPanel.setMultipleStructure(structAligns);
     }
@@ -242,7 +244,7 @@ public class InputHub
         final int labelHeight = 20;
         final int labelWidth = 50;
         final SeqPainter seqPainter = new SeqPainter();
-        seqPainter.setProteinSeq(proteinSequences);
+        seqPainter.setProteinSeq(proteinSequencesList);
         JScrollPane jScrollPane = new JScrollPane(seqPainter.getproTsp());
 
         final JScrollBar vScrollBar = new JScrollBar(JScrollBar.VERTICAL,0,0,0,100);
@@ -288,5 +290,13 @@ public class InputHub
         
 //        PSCgui.proseqSiltPane.setRightComponent(seqPainter.getproPanel());
 //        PSCgui.proseqSiltPane.setRightComponent(jScrollPane);
+    }
+
+    private void structureUpdate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void alignmentUpdata() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -33,7 +33,7 @@ public class PSCgui extends JFrame implements ActionListener
     private JMenu fileMenu, helpMenu,analysisMenu;
     private JMenuBar menuBar;
     private JMenuItem loadItem, appendItem, exitItem, aboutItem,alignItem,calculateRMSDItem;
-    private JMenuItem buildTreeItem, deleteItem,saveAlignmentItem, loadSeqsItem;
+    private JMenuItem buildTreeItem, deleteItem,saveAlignmentItem, loadSeqsItem,loadDNAseqItem;
     //***** frame *****
 //    public static  JSplitPane proseqSiltPane;
 //    private JSplitPane secseqSiltPane;
@@ -56,7 +56,6 @@ public class PSCgui extends JFrame implements ActionListener
     public static JPanel rightAaPanel;
     public static InputHub inputHub;
     private int frameWidth, frameHeight;
-    private JFrame mainFrame;
    
     public PSCgui() 
     {
@@ -83,18 +82,12 @@ public class PSCgui extends JFrame implements ActionListener
 
         loadRuned = 0;
         appendRuned = 0;
-        //+++++++++++++++++ frame ++++++++++++++++++++++++++++++++++++++++++++++
-        //  frame size
+
         screen = Toolkit.getDefaultToolkit().getScreenSize();
-//        setSize(800, 1000);//
         setSize(screen.width , screen.height );
         frameHeight = this.getHeight();
         frameWidth = this.getWidth();
-        System.out.println(frameHeight + "   " + frameWidth);
-        System.out.println(screen.height + "   " + screen.width);
-//        setLocation(screen.width / 6, screen.height / 6);
-
-
+        
         makePanel();
  
         addJmol();
@@ -195,6 +188,23 @@ public class PSCgui extends JFrame implements ActionListener
             } catch (IOException ex) {
                 Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
             } catch (StructureException ex) {
+                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        if (ace.getSource() == loadDNAseqItem)
+        {
+            try {
+                secseqPanel.setToolTipText("DNA Sequences");
+                LoadSeqs loadDNA = new  LoadSeqs();
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (StructureException ex) {
+                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalSymbolException ex) {
                 Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -327,6 +337,9 @@ public class PSCgui extends JFrame implements ActionListener
         
         loadSeqsItem = new JMenuItem("Load Sequences");
         loadSeqsItem.addActionListener(this);
+        
+        loadDNAseqItem = new JMenuItem("Load DNA Seuqnences");
+        loadDNAseqItem.addActionListener(this);
 
         exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(this);
@@ -349,8 +362,12 @@ public class PSCgui extends JFrame implements ActionListener
         fileMenu = new JMenu("File");
         fileMenu.add(loadItem);
         fileMenu.add(appendItem);
+        fileMenu.addSeparator();
         fileMenu.add(loadSeqsItem);
+        fileMenu.add(loadDNAseqItem);
+        fileMenu.addSeparator();
         fileMenu.add(saveAlignmentItem);
+        fileMenu.addSeparator();
         fileMenu.add(exitItem);
         
         analysisMenu = new JMenu("Analysis");

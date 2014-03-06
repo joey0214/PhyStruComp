@@ -7,12 +7,15 @@ package psc.gui;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -30,6 +33,8 @@ public class SliderSlectionPanel extends JPanel implements ActionListener
     int windowSize, startI,endI;
     public SliderSlectionPanel()
     {
+        setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
+                EtchedBorder.LOWERED), "OutPut"));
         windowSize = 50;
         startI =0;
         endI =0;
