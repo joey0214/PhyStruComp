@@ -23,11 +23,11 @@ public class StructureIO
     private ProteinSequence[] proteinSequences;
     private Structure[] structures;
     private StateOutput errorMessage;
+    private String[] pdbNames;
     
     public void readPDBFiles(File[] pdbfiles) throws IOException
     {
-        this.pdbFiles = pdbfiles;
-        this.structures = extractStructure(pdbfiles);
+        getStructure(pdbfiles);
         
     }
     
@@ -36,18 +36,34 @@ public class StructureIO
         this.pdbFiles = pdbfiles;
         Structure[] inputedStructures = extractStructure(pdbfiles);
         this.structures = inputedStructures;
+        this.pdbNames = getPbdNames();
+        readStructure(structures);
     }
     
-    public void readStructure(){}
+    public void readStructure(Structure[] structs)
+    {
+        
+    }
     
     public Structure[] getStructures()
     {
         return structures;
     }
     
-    public void getProteinSequences(){}
+    public ProteinSequence[] getProteinSequences()
+    {
+        return proteinSequences;
+    }
     
-    public void getSecondSeuqnces(){}
+    public Sequence[] getAASequences()
+    {
+        return aaSequenceses;
+    }
+    
+    public Sequence[] getSecondSeuqnces()
+    {
+        return secondSeqs;
+    }
     
     public void setPDBs(File[] pdbfiles) throws IOException
     {
@@ -55,9 +71,20 @@ public class StructureIO
         readPDBFiles(pdbfiles);
     }
     
-    public void setProteinSequences(){}
+    public void setProteinSequences(Sequence[] proseqs)
+    {
+        this.aaSequenceses = proseqs;
+    }
     
-    public void setSecondSequences(){}
+    public void setProteinSequences(ProteinSequence[] proseqs)
+    {
+        this.proteinSequences = proseqs;
+    }
+    
+    public void setSecondSequences(Sequence[] secseqs)
+    {
+        this.secondSeqs = secseqs;
+    }
 
     private Structure[] extractStructure(File[] pdbfiles) throws IOException 
     {
@@ -81,6 +108,25 @@ public class StructureIO
             return structures;
         }
        
+    }
+
+    private String[] getPbdNames() 
+    {
+        if (pdbFiles == null || pdbFiles.length == 0)
+        {
+            return null;
+        }
+        else 
+        {
+            pdbNames = new String[pdbFiles.length];
+            for (int i = 0; i < pdbFiles.length; i++) 
+            {
+                String[] tmpstrings = (pdbFiles[i].getName().toString()).split("\\.");
+                pdbNames[i] = tmpstrings[0];
+            }
+            
+            return pdbNames;
+        }
     }
     
 }
