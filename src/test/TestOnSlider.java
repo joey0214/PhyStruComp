@@ -5,7 +5,7 @@
 package test;
 
 import javax.swing.JFrame;
-import psc.gui.SliderSlectionPanel;
+import psc.gui.SliderSelectionPanel;
 
 /**
  *
@@ -16,7 +16,7 @@ public class TestOnSlider
     
     public static void main(String argsString[])
     {
-         SliderSlectionPanel test = new SliderSlectionPanel();
+         SliderSelectionPanel test = new SliderSelectionPanel();
          JFrame mainFrame = new JFrame("Test on slider");
          mainFrame.add(test);
          mainFrame.setSize(400, 400);

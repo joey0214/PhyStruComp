@@ -56,6 +56,7 @@ public class PSCgui extends JFrame implements ActionListener
     public static JPanel rightAaPanel;
     public static InputHub inputHub;
     private int frameWidth, frameHeight;
+    private SliderSelectionPanel singleSlider ;
    
     public PSCgui() 
     {
@@ -490,6 +491,8 @@ public class PSCgui extends JFrame implements ActionListener
 
     private void fillToolPanel() 
     {
+        singleSlider = new SliderSelectionPanel();
+        
         loadButton = new JButton("Load PDB");
         loadButton.addActionListener(this);
 
@@ -518,7 +521,8 @@ public class PSCgui extends JFrame implements ActionListener
         gbc.weightx = 0;
         gbc.weighty = 0;
         gbc.anchor = GridBagConstraints.NORTH;
-        add(toolPanel, loadButton, gbc, 0, 0, 1, 1);
+        add(toolPanel, singleSlider, gbc, 0, 0, 1, 1);
+//        add(toolPanel, loadButton, gbc, 0, 0, 1, 1);
         add(toolPanel, appendPDB, gbc, 0, 1, 1, 1);
         add(toolPanel, alignButton, gbc, 0, 2, 1, 1);
         add(toolPanel, calcuateRmsd, gbc, 0, 3, 1, 1);

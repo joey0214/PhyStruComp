@@ -4,6 +4,9 @@
  */
 package psc.gui;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +26,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author zhongxf
  */
-public class SliderSlectionPanel extends JPanel implements ActionListener
+public class SliderSelectionPanel extends JPanel implements ActionListener
 {
     private JRadioButton fixedButton, flexibleButton;
     private  JButton retreeButton;
@@ -31,10 +34,15 @@ public class SliderSlectionPanel extends JPanel implements ActionListener
     private JSlider slider;
     ChangeListener sliderListener;
     int windowSize, startI,endI;
-    public SliderSlectionPanel()
+    private GridBagConstraints gbc;
+    
+    public SliderSelectionPanel()
     {
+        super();
+        gbc = new GridBagConstraints();
+        
         setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
-                EtchedBorder.LOWERED), "OutPut"));
+                EtchedBorder.LOWERED), " "));
         windowSize = 50;
         startI =0;
         endI =0;
@@ -68,12 +76,22 @@ public class SliderSlectionPanel extends JPanel implements ActionListener
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(5);
         
-        add(fixedButton);
-        add(slider);
-        add(valueMessageArea);
-        add(flexibleButton);
-        
-        add(retreeButton);
+//        add(fixedButton);
+//        add(slider);
+//        add(valueMessageArea);
+//        add(flexibleButton);
+//        
+//        add(retreeButton);
+//        
+        gbc.weightx = 0;
+        gbc.weighty = 0;
+        gbc.anchor = GridBagConstraints.NORTH;
+//        add(toolPanel, singleSlider, gbc, 0, 0, 1, 1);
+        add(this, fixedButton, gbc, 0, 0, 1, 1);
+        add(this, slider, gbc, 0, 1, 1, 1);
+        add(this, valueMessageArea, gbc, 0, 2, 1, 1);
+        add(this, flexibleButton, gbc, 0, 3, 1, 1);
+        add(this, retreeButton, gbc, 0, 4, 1, 1);
     }
     /**
      * get the value of slider selection
@@ -112,5 +130,14 @@ public class SliderSlectionPanel extends JPanel implements ActionListener
        }
     }
     
+    private void add(Container cn, Component c, GridBagConstraints gbc, 
+            int x, int y, int w, int h) 
+    {
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        cn.add(c, gbc);
+    }  
     
 }
