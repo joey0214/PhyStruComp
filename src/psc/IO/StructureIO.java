@@ -6,8 +6,10 @@ package psc.IO;
 
 import java.io.File;
 import java.io.IOException;
+import org.biojava.bio.structure.Chain;
 import org.biojava.bio.structure.Structure;
 import org.biojava.bio.structure.io.PDBFileReader;
+import org.biojava3.core.sequence.AccessionID;
 import org.biojava3.core.sequence.ProteinSequence;
 import psc.Sequence.Sequence;
 import psc.gui.StateOutput;
@@ -42,7 +44,22 @@ public class StructureIO
     
     public void readStructure(Structure[] structs)
     {
-        
+        ProteinSequence[] proseqs = new ProteinSequence[structs.length];
+        //String[] structnames = getStructureName();
+        for (int i = 0; i < structs.length; i++) 
+        {
+            Structure tmpStruct = structs[i];
+            String aminoChainSeq = "";
+            for (Chain chain : tmpStruct.getChains()) 
+            {
+                aminoChainSeq += chain.getAtomSequence();
+            }
+            String aminoSeq = aminoChainSeq;
+            proseqs[i] = new ProteinSequence(aminoSeq);
+            AccessionID tmpID = new AccessionID(pdbNames[i]);
+            proseqs[i].setAccession(tmpID);         
+        }
+       
     }
     
     public Structure[] getStructures()
