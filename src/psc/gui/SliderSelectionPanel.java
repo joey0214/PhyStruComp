@@ -11,16 +11,17 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.*;
 
 /**
  *
@@ -32,13 +33,20 @@ public class SliderSelectionPanel extends JPanel implements ActionListener
     private  JButton retreeButton;
     private JTextField valueMessageArea;
     private JSlider slider;
-    ChangeListener sliderListener;
+    ChangeListener sliderListener, multiSliderListener;
     int windowSize, startI,endI;
     private GridBagConstraints gbc;
     
     public SliderSelectionPanel()
     {
-        super();
+//       JComponent pane;
+//        pane = (JComponent) new JPanel();
+////        pane.setLayout(new GridBagLayout());
+//        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+        
+        JPanel ipanel = new JPanel();
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+          
         gbc = new GridBagConstraints();
         
         setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
@@ -48,8 +56,8 @@ public class SliderSelectionPanel extends JPanel implements ActionListener
         endI =0;
         
         valueMessageArea = new JTextField();
-        sliderListener = new ChangeListener() {
-
+        sliderListener = new ChangeListener() 
+        {
             @Override
             public void stateChanged(ChangeEvent ce) 
             {
@@ -58,13 +66,32 @@ public class SliderSelectionPanel extends JPanel implements ActionListener
                 
             }
         };
+        
+//        multiSliderListener = new ChangeListener() 
+//        {
+//            @Override
+//            public void stateChanged(ChangeEvent ce) 
+//            {
+//                MultiSlider source = (MultiSlider)ce.getSource();
+//                valueMessageArea.setText("The select value is ：" + source.getValue());
+//                System.out.println(source.getValue());
+//            }
+//        };
+                
         fixedButton = new JRadioButton("Fixed Sized", false);
+        fixedButton.setSize(50, 20);
         fixedButton.addActionListener(this);
         
         flexibleButton = new JRadioButton("Filexible Size", false);
+        flexibleButton.setSize(50, 20);
         flexibleButton.addActionListener(this);
         
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(fixedButton);
+        buttonGroup.add(flexibleButton);
+        
         retreeButton = new JButton("Re-Tree");
+        retreeButton.setSize(40, 20);
         retreeButton.addActionListener(this);        
         
         slider = new JSlider(0,100);
@@ -75,23 +102,18 @@ public class SliderSelectionPanel extends JPanel implements ActionListener
         slider.addChangeListener(sliderListener);
         slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(5);
+        slider.setValue(0);
         
-//        add(fixedButton);
-//        add(slider);
-//        add(valueMessageArea);
-//        add(flexibleButton);
-//        
-//        add(retreeButton);
-//        
-        gbc.weightx = 0;
-        gbc.weighty = 0;
-        gbc.anchor = GridBagConstraints.NORTH;
-//        add(toolPanel, singleSlider, gbc, 0, 0, 1, 1);
-        add(this, fixedButton, gbc, 0, 0, 1, 1);
-        add(this, slider, gbc, 0, 1, 1, 1);
-        add(this, valueMessageArea, gbc, 0, 2, 1, 1);
-        add(this, flexibleButton, gbc, 0, 3, 1, 1);
-        add(this, retreeButton, gbc, 0, 4, 1, 1);
+        
+//        MultiSlider multiSlider = new MultiSlider();
+//        multiSlider.addChangeListener(multiSliderListener);
+        
+        add(fixedButton);
+        add(slider);
+        add(valueMessageArea);
+        add(flexibleButton);   
+//        add(multiSlider);
+        add(retreeButton);
     }
     /**
      * get the value of slider selection

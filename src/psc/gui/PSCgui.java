@@ -407,7 +407,7 @@ public class PSCgui extends JFrame implements ActionListener
         structPanel.setLayout(new GridBagLayout());
         structPanel.setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED), "Protein structure"));
-        structPanel.setPreferredSize(new Dimension(frameWidth *3/ 4, frameHeight/ 2));
+        structPanel.setPreferredSize(new Dimension(frameWidth *6/10, frameHeight/ 2));
         
         appPanel = new JPanel();
 //        appPanel.setSize(new Dimension(800, 100));
@@ -419,14 +419,14 @@ public class PSCgui extends JFrame implements ActionListener
         secseqPanel.setLayout(new GridBagLayout());
         secseqPanel.setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED), "Secondary Structure Sequence"));
-        secseqPanel.setPreferredSize(new Dimension(frameWidth *3/ 4, frameHeight / 4));
+        secseqPanel.setPreferredSize(new Dimension(frameWidth *6/10, frameHeight / 4));
 
         proseqPanel = new JPanel();
         proseqPanel.setLayout(new GridBagLayout());
         proseqPanel.setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED), "Protein Sequence"));
-        proseqPanel.setPreferredSize(new Dimension(frameWidth *3/ 4, frameHeight / 4));
-        proseqPanel.setSize(frameWidth *3/ 4, frameHeight / 4);
+        proseqPanel.setPreferredSize(new Dimension(frameWidth *6/10, frameHeight / 4));
+        proseqPanel.setSize(frameWidth *6/10, frameHeight / 4);
 
         toolPanel = new JPanel();
         toolPanel.setLayout(new GridBagLayout());
@@ -438,6 +438,9 @@ public class PSCgui extends JFrame implements ActionListener
         outputPanel.setBorder(BorderFactory.createTitledBorder(new EtchedBorder(
                 EtchedBorder.LOWERED), "OutPut"));
 
+        singleSlider = new SliderSelectionPanel();
+        
+        
         //when the size of frame changed, containes do nothing
         gbc.weightx = 0;
         gbc.weighty = 1;

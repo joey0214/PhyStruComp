@@ -45,6 +45,7 @@ public class StructureIO
     public void readStructure(Structure[] structs)
     {
         ProteinSequence[] proseqs = new ProteinSequence[structs.length];
+        Sequence[] aminoseqs = new Sequence[structs.length];
         //String[] structnames = getStructureName();
         for (int i = 0; i < structs.length; i++) 
         {
@@ -57,9 +58,13 @@ public class StructureIO
             String aminoSeq = aminoChainSeq;
             proseqs[i] = new ProteinSequence(aminoSeq);
             AccessionID tmpID = new AccessionID(pdbNames[i]);
-            proseqs[i].setAccession(tmpID);         
+            proseqs[i].setAccession(tmpID);  
+            
+            aminoseqs[i] = new Sequence(pdbNames[i], aminoSeq);
         }
        
+        this.proteinSequences = proseqs;
+        this.aaSequenceses = aminoseqs;
     }
     
     public Structure[] getStructures()
