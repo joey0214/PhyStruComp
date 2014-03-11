@@ -37,7 +37,8 @@ public class PSCgui extends JFrame implements ActionListener
     //***** frame *****
 //    public static  JSplitPane proseqSiltPane;
 //    private JSplitPane secseqSiltPane;
-    private JPanel structPanel, secseqPanel,  proseqPanel,toolPanel, appPanel,outputPanel;
+    private JPanel structPanel, toolPanel, appPanel,outputPanel;
+    public static JPanel secseqPanel,  proseqPanel;
     //pdb_textarea just for pdb display at the monment
     //change dna_seq_area and aa_seq_area from JTextPane to JTextArea
     private JButton loadButton, calcuateRmsd,appendPDB, TestTable,alignButton;

@@ -151,4 +151,8 @@ public class StructureIO
         }
     }
     
+    public String[] getStructureNames()
+    {
+        return pdbNames;
+    }
 }

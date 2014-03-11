@@ -51,7 +51,7 @@ public class LoadSeqs
         else if (c == JFileChooser.APPROVE_OPTION) 
         {
             File seqFiles[] = loadSeqDialog.getSelectedFiles();
-            PSCgui.inputHub.setSeqFile(seqFiles);
+            PSCgui.inputHub.setSequencesFile(seqFiles);
             PSCgui.inputHub.update();  
             PSCgui.outpuTextArea.append(seqFiles.length + " seqeuences loaded");
         }        

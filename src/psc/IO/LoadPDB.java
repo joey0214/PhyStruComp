@@ -40,7 +40,7 @@ public class LoadPDB
         else if (c == JFileChooser.APPROVE_OPTION) 
         {
             File pdbSelectedFiles[] = load_pdb_dialog.getSelectedFiles();
-            PSCgui.inputHub.setStructureFile(pdbSelectedFiles);
+            PSCgui.inputHub.setPdbFile(pdbSelectedFiles);
             PSCgui.inputHub.update();  
             PSCgui.outpuTextArea.append(pdbSelectedFiles.length + " PDBs loaded");
         }        

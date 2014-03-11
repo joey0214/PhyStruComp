@@ -4,6 +4,11 @@
  */
 package psc.gui;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
@@ -11,12 +16,19 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import org.biojava.bio.seq.Sequence;
+//import org.biojava.bio.seq.Sequence;
 import org.biojava.bio.structure.Structure;
 import org.biojava.bio.symbol.IllegalSymbolException;
 import org.biojava3.core.sequence.ProteinSequence;
+import psc.IO.AlignmentIO;
+import psc.IO.SequencesIO;
+import psc.IO.StructureIO;
+import psc.Sequence.Alignment;
+import psc.Sequence.AlignmentPanel;
+import psc.Sequence.AlignmentView;
 import psc.Sequence.SeqPainter;
-import psc.Structure.StructureFactory;
+import psc.Sequence.Sequence;
+//import psc.Structure.StructureFactory;
 
 /**
  *
@@ -29,9 +41,14 @@ public class InputHub
     private ProteinSequence[] proteinSequencesList ;
     private File[] inFiles = null;
     private String[] structnames ;
-    private StructureFactory structFactory = new StructureFactory();
+//    private StructureFactory structFactory = new StructureFactory();
     private File[] secseqfiles;
     private Sequence[] secseqs;
+    private StructureIO structureIO = new StructureIO();
+    private SequencesIO sequenceIO = new SequencesIO();
+    private String[] seqsLabels ;
+    private Sequence[] gapSequences;
+    private AlignmentPanel alignmentPanel;
     
     public void setStructure(Structure[] structArray)
     {
@@ -44,24 +61,24 @@ public class InputHub
         
     }
     
-    public void setSeqFile(File[] files) throws IOException
+    public void setSequencesFile(File[] files) throws IOException
     {
         this.inFiles = files;
-//        extractFiles();
-        structFactory.setInPDBfiles(inFiles);
-        this.structureList = structFactory.getStructure();
-        this.proteinSequencesList = structFactory.getProSeq();
-        this.structnames = structFactory.getStructureName();
+        sequenceIO.readSequencesFiles(inFiles);
+        this.aaSeqList = sequenceIO.getOriginSequences();
+        this.gapSequences = sequenceIO.getGapedSequences();
+        this.seqsLabels = sequenceIO.getSequencesNames();
     }
     
-     public void setStructureFile(File[] files) throws IOException
+     public void setPdbFile(File[] files) throws IOException
     {
         this.inFiles = files;
 //        extractFiles();
-        structFactory.setInPDBfiles(inFiles);
-        this.structureList = structFactory.getStructure();
-        this.proteinSequencesList = structFactory.getProSeq();
-        this.structnames = structFactory.getStructureName();
+        structureIO.readPDBFiles(inFiles);
+        this.structureList = structureIO.getStructures();
+        this.proteinSequencesList = structureIO.getProteinSequences();
+        this.aaSeqList = structureIO.getAASequences();
+        this.structnames = structureIO.getStructureNames();
     }
     
     public Structure[] getStructure()
@@ -116,10 +133,10 @@ public class InputHub
     
     public void appendFiles(File[] files) throws IOException
     {
-        structFactory.appendFiles(files);
-        this.structureList = structFactory.getStructure();
-        this.proteinSequencesList = structFactory.getProSeq();
-        this.structnames = structFactory.getStructureName();
+        structureIO.readPDBFiles(files);
+        this.structureList = structureIO.getStructures();
+        this.proteinSequencesList = structureIO.getProteinSequences();
+        this.structnames = structureIO.getStructureNames();
         
 //        if (inFiles == null ||(inFiles != null && inFiles.length ==0))
 //        {
@@ -150,8 +167,8 @@ public class InputHub
             else 
             {
                 
-                structFactory.setStructure(structureList);
-                this.proteinSequencesList = structFactory.getProSeq();
+                structureIO.readStructure(structureList);
+                this.proteinSequencesList = structureIO.getProteinSequences();
                 visulazation();
             }
         }
@@ -165,18 +182,17 @@ public class InputHub
 
     private void extractFiles() throws IOException 
     {
-        StructureFactory structFactory = new StructureFactory();
-        structFactory.setInPDBfiles(inFiles);
-        this.proteinSequencesList = structFactory.getProSeq();
-        this.structureList = structFactory.getStructure();
-        this.structnames = structFactory.getStructureName();
+        structureIO.readPDBFiles(inFiles);
+        this.proteinSequencesList = structureIO.getProteinSequences();
+        this.structureList = structureIO.getStructures();
+        this.structnames = structureIO.getStructureNames();
     }
 
     private void visulazation() throws IllegalSymbolException 
     {
         proAlignmentUpdate();
      
-      System.out.println("you are using displayindui2");
+        System.out.println("you are using displayindui2");
         PSCgui.jmolPanel.setMultipleStructure(structureList);
         
         //PSCmain.jmolPanel.setMultipleStructure(structAligns);
@@ -292,11 +308,59 @@ public class InputHub
 //        PSCgui.proseqSiltPane.setRightComponent(jScrollPane);
     }
 
-    private void structureUpdate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void structureUpdate() 
+    {
+        PSCgui.jmolPanel.setMultipleStructure(structureList);
     }
 
-    private void alignmentUpdata() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void alignmentUpdata() 
+    {
+        AlignmentIO alignmentIO = new AlignmentIO();
+        alignmentIO.loadAlignment(aaSeqList);
+        Alignment alignment = alignmentIO.getAlignment();
+        AlignmentView alignView = new AlignmentView(alignment);
+
+//        if (alignView == null) {
+//            System.out.println("test alignment null");
+//        }
+        
+         PSCgui.proseqPanel.setLayout(new GridBagLayout());
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        //set distance between containers
+//        gbc.insets = new Insets(4, 4, 4, 4);
+
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.fill = GridBagConstraints.BOTH;
+        
+        if (PSCgui.proseqPanel.getComponents().length == 0)
+        {
+            alignmentPanel = new  AlignmentPanel(alignView);
+        
+//            PSCgui.proseqPanel.add(alignmentPanel);
+            add(PSCgui.proseqPanel,alignmentPanel,gbc,0,0,0,0);
+        }
+        //append files after loaded
+        else
+        {
+            PSCgui.proseqPanel.removeAll();
+            AlignmentPanel newAlifnView = new AlignmentPanel(alignView);
+            newAlifnView.setSize(PSCgui.proseqPanel.getSize());
+//            PSCgui.proseqPanel.getSize()
+//            PSCgui.proseqPanel.add(newAlifnView);
+            add(PSCgui.proseqPanel,alignmentPanel,gbc,0,0,0,0);
+            
+        }
     }
+    
+    private void add(Container cn, Component c, GridBagConstraints gbc, 
+            int x, int y, int w, int h) 
+    {
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.gridwidth = w;
+        gbc.gridheight = h;
+        cn.add(c, gbc);
+    } 
 }
