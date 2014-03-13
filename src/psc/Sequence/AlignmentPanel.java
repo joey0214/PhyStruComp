@@ -253,7 +253,8 @@ public class AlignmentPanel extends  JSplitPane implements AdjustmentListener
     }
 
     @Override
-    public void paintComponent(Graphics g){ 
+    public void paintComponent(Graphics g)
+    { 
         setScrollValues(alignView.getFirstRes(), alignView.getFirstSeq());
     
     }

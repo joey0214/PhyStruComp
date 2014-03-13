@@ -8,12 +8,10 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.io.File;
 import java.io.IOException;
-import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 //import org.biojava.bio.seq.Sequence;
@@ -96,10 +94,14 @@ public class InputHub
         return structnames;
     }
     
-    public void setSecstructSeq()
+    public void setSecstructSeq(Sequence[] secseqs)
     {
-        //TODO
+        this.secSeqList = secseqs;
     }
+    
+    /**
+     * append structure, merge with exist structure list 
+     */
     public void appendStructure(Structure[] appendStruct)
     {
         if (structureList == null|| (structureList != null && structureList.length ==0))
@@ -115,6 +117,10 @@ public class InputHub
             this.structureList = renewStructures;
         }
     }
+    
+    /**
+     * append proteinSequence, merge with exist proteinSequence list 
+     */
     public void appendProseq(ProteinSequence[] appendProseq)
     {
         if (proteinSequencesList == null || (proteinSequencesList !=null && proteinSequencesList.length == 0))
@@ -131,26 +137,59 @@ public class InputHub
         }
     }
     
+    /**
+     * append amino acid sequence in Sequence format 
+     */
+    public void appendSequences(Sequence[] aaseq)
+    {
+        if (aaSeqList == null || (aaSeqList !=null && aaSeqList.length == 0))
+        {
+            this.aaSeqList = aaseq;
+        }
+        else 
+        {
+            int renewLen = aaSeqList.length + aaseq.length;
+            Sequence[] renewseq = new Sequence[renewLen];
+            System.arraycopy(aaSeqList, 0, renewseq, 0, aaSeqList.length);
+            System.arraycopy(aaseq, 0, renewseq, aaSeqList.length, aaseq.length);
+            this.aaSeqList = aaseq;
+        }
+    }
+    
+    /**
+     * append second sequence
+     */
+    public void appendSecSequences(Sequence[] aaseq)
+    {
+        if (secSeqList == null || (secSeqList !=null && secSeqList.length == 0))
+        {
+            this.secSeqList = aaseq;
+        }
+        else 
+        {
+            int renewLen = secSeqList.length + aaseq.length;
+            Sequence[] renewseq = new Sequence[renewLen];
+            System.arraycopy(secSeqList, 0, renewseq, 0, secSeqList.length);
+            System.arraycopy(aaseq, 0, renewseq, secSeqList.length, aaseq.length);
+            this.secSeqList = aaseq;
+        }
+    }
+    
+    /**
+     * append pdb files
+     */
     public void appendFiles(File[] files) throws IOException
     {
         structureIO.readPDBFiles(files);
-        this.structureList = structureIO.getStructures();
-        this.proteinSequencesList = structureIO.getProteinSequences();
-        this.structnames = structureIO.getStructureNames();
+        Structure[] appendStructures = structureIO.getStructures();
+        
+//        this.structureList = structureIO.getStructures();
+        ProteinSequence[] appendProteinSequences = structureIO.getProteinSequences();
+        Sequence[] appendSequences = structureIO.getAASequences();
+//        this.structnames = structureIO.getStructureNames();
         
 //        if (inFiles == null ||(inFiles != null && inFiles.length ==0))
-//        {
-//            this.inFiles = files;
-//        }
-//        else 
-//        {
-//            int renewLen = inFiles.length + files.length;
-//            File[] renewFiles = new File[renewLen];
-//            System.arraycopy(inFiles, 0, renewFiles, 0, inFiles.length);
-//            System.arraycopy(files, 0, renewFiles, inFiles.length, files.length);
-//            this.inFiles = renewFiles;
-//            extractFiles();
-//        }
+
         
     }
     public void update() throws IllegalSymbolException
@@ -162,14 +201,14 @@ public class InputHub
         {
             if (proteinSequencesList != null && proteinSequencesList.length !=0)
             {
-                visulazation();
+//                visulazation();
             }
             else 
             {
                 
                 structureIO.readStructure(structureList);
                 this.proteinSequencesList = structureIO.getProteinSequences();
-                visulazation();
+//                visulazation();
             }
         }
         else 
@@ -198,7 +237,7 @@ public class InputHub
         //PSCmain.jmolPanel.setMultipleStructure(structAligns);
     }
 
-    public void setSecseqFile(File[] secseqFiles) 
+    public void setSecseqFile(File[] secseqFiles) throws IOException 
     {
         this.secseqfiles = secseqFiles;
         if (secseqfiles !=null &&(secseqfiles.length != 0))
@@ -207,9 +246,22 @@ public class InputHub
         }
     }
     
-    private void getSecSeq()
+    private void getSecSeq() throws IOException
     {
+        sequenceIO = new SequencesIO();
+        sequenceIO.readSequencesFiles(secseqfiles);
+        Sequence[] seqs = sequenceIO.getOriginSequences();
+        Sequence[] gapedseqs = sequenceIO.getGapedSequences();
         
+        if (secSeqList == null || secSeqList != null && secSeqList.length == 0)
+        {
+            secSeqList = seqs;
+        }
+        
+        else 
+        {
+            
+        }
     }
     
     public String getFilePath()
@@ -257,31 +309,13 @@ public class InputHub
     //update chengs in protein sequences alignment in translatedSequencePanel
     private void proAlignmentUpdate() throws IllegalSymbolException 
     {
-        final int labelHeight = 20;
-        final int labelWidth = 50;
-        final SeqPainter seqPainter = new SeqPainter();
-        seqPainter.setProteinSeq(proteinSequencesList);
-        JScrollPane jScrollPane = new JScrollPane(seqPainter.getproTsp());
-
-        final JScrollBar vScrollBar = new JScrollBar(JScrollBar.VERTICAL,0,0,0,100);
-        vScrollBar.addAdjustmentListener(new AdjustmentListener() {
-
-            @Override
-            public void adjustmentValueChanged(AdjustmentEvent e) 
-            {
-                //Get the absolute position of the scroll bar
-                    double scrollBarValue = e.getValue();
-                    //Get the position of the scroll bar relative to the maximum value
-                    double scrollBarRatio = scrollBarValue / vScrollBar.getMaximum();
-                    //Calculate the new position of the first base to be displayed
-                    double pos = scrollBarRatio * (seqPainter.getproTsp().getSequence().length() - ((seqPainter.getproTsp().getHeight() - labelHeight) / seqPainter.getproTsp().getScale()));
-                    //Set the new SymbolTranslation for the TranslatedSequencePanel
-                    seqPainter.getproTsp().setSymbolTranslation((int) Math.round(pos));
-                   
-            }
-        });
-        
-        final JScrollBar hScrollBar = new JScrollBar(JScrollBar.HORIZONTAL,0,0,0,100);
+//        final int labelHeight = 20;
+//        final int labelWidth = 50;
+//        final SeqPainter seqPainter = new SeqPainter();
+//        seqPainter.setProteinSeq(proteinSequencesList);
+//        JScrollPane jScrollPane = new JScrollPane(seqPainter.getproTsp());
+//
+//        final JScrollBar vScrollBar = new JScrollBar(JScrollBar.VERTICAL,0,0,0,100);
 //        vScrollBar.addAdjustmentListener(new AdjustmentListener() {
 //
 //            @Override
@@ -290,22 +324,21 @@ public class InputHub
 //                //Get the absolute position of the scroll bar
 //                    double scrollBarValue = e.getValue();
 //                    //Get the position of the scroll bar relative to the maximum value
-//                    double scrollBarRatio = scrollBarValue / hScrollBar.getMaximum();
+//                    double scrollBarRatio = scrollBarValue / vScrollBar.getMaximum();
 //                    //Calculate the new position of the first base to be displayed
-//                    double pos = scrollBarRatio * (seqPainter.getproTsp().getSequence().length() - ((seqPainter.getproTsp().getWidth() - labelWidth) / seqPainter.getproTsp().getScale()));
+//                    double pos = scrollBarRatio * (seqPainter.getproTsp().getSequence().length() - ((seqPainter.getproTsp().getHeight() - labelHeight) / seqPainter.getproTsp().getScale()));
 //                    //Set the new SymbolTranslation for the TranslatedSequencePanel
 //                    seqPainter.getproTsp().setSymbolTranslation((int) Math.round(pos));
+//                   
 //            }
 //        });
-       
-        jScrollPane.setHorizontalScrollBar(hScrollBar);
-        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        jScrollPane.setVerticalScrollBar(vScrollBar);
-        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-        
-//        PSCgui.proseqSiltPane.setRightComponent(seqPainter.getproPanel());
-//        PSCgui.proseqSiltPane.setRightComponent(jScrollPane);
+//        
+//        final JScrollBar hScrollBar = new JScrollBar(JScrollBar.HORIZONTAL,0,0,0,100);
+//       
+//        jScrollPane.setHorizontalScrollBar(hScrollBar);
+//        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//        jScrollPane.setVerticalScrollBar(vScrollBar);
+//        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     }
 
     private void structureUpdate() 
@@ -330,14 +363,17 @@ public class InputHub
         //set distance between containers
 //        gbc.insets = new Insets(4, 4, 4, 4);
 
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.weightx = 0;
+        gbc.weighty = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        
-        if (PSCgui.proseqPanel.getComponents().length == 0)
+        gbc.anchor = GridBagConstraints.NORTH;
+
+
+        if (PSCgui.proseqPanel.getComponents().length == 0) 
         {
-            alignmentPanel = new  AlignmentPanel(alignView);
-        
+            alignmentPanel = new AlignmentPanel(alignView);
+            
+
 //            PSCgui.proseqPanel.add(alignmentPanel);
             add(PSCgui.proseqPanel,alignmentPanel,gbc,0,0,0,0);
         }
@@ -349,7 +385,9 @@ public class InputHub
             newAlifnView.setSize(PSCgui.proseqPanel.getSize());
 //            PSCgui.proseqPanel.getSize()
 //            PSCgui.proseqPanel.add(newAlifnView);
+            
             add(PSCgui.proseqPanel,alignmentPanel,gbc,0,0,0,0);
+            
             
         }
     }
