@@ -78,15 +78,15 @@ public  class PscColorScheme implements ColorSchemeI
 //       addSpecies("Q", new Color(0,220,220));
 //       addSpecies("q", new Color(0,220,220));
 //       
-       addSpecies("L", new Color(15,130,15));
-       addSpecies("l", new Color(15,130,15));
-       addSpecies("I", new Color(15,130,15));
-       addSpecies("i", new Color(15,130,15));      
-       addSpecies("V", new Color(15,130,15));
-       addSpecies("v", new Color(15,130,15));
-       
-       addSpecies("p", new Color(220,150,130));
-       addSpecies("P", new Color(220,150,130));
+//       addSpecies("L", new Color(15,130,15));
+//       addSpecies("l", new Color(15,130,15));
+//       addSpecies("I", new Color(15,130,15));
+//       addSpecies("i", new Color(15,130,15));      
+//       addSpecies("V", new Color(15,130,15));
+//       addSpecies("v", new Color(15,130,15));
+//       
+//       addSpecies("p", new Color(220,150,130));
+//       addSpecies("P", new Color(220,150,130));
        
      
        
