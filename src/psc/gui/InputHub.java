@@ -232,8 +232,8 @@ public class InputHub
         proAlignmentUpdate();
      
         System.out.println("you are using displayindui2");
-        PSCgui.jmolPanel.setMultipleStructure(structureList);
-        
+//        PSCgui.jmolPanel.setMultipleStructure(structureList);
+         PSCgui.jmolPanel.setMultipleStructure(structureList);
         //PSCmain.jmolPanel.setMultipleStructure(structAligns);
     }
 
@@ -363,8 +363,8 @@ public class InputHub
         //set distance between containers
 //        gbc.insets = new Insets(4, 4, 4, 4);
 
-        gbc.weightx = 0;
-        gbc.weighty = 0;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.NORTH;
 

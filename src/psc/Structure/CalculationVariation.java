@@ -23,15 +23,16 @@ public class CalculationVariation
     private Structure[] structures;
     private double[][] rmsdMatrix;
     private String[] labels;
-    
+
     public void readIN(Structure[] structureIN) throws StructureException
     {
         this.structures = structureIN;
         calculationAll(structures);
     }
     
-    public void CalculationVariation(Structure[] structs ) throws StructureException
+    public  CalculationVariation(Structure[] structs ) throws StructureException
     {
+        this.structures = structs;
         calculationAll(structures);
         
     }
@@ -41,9 +42,10 @@ public class CalculationVariation
         return rmsdMatrix;
     }
     
-    public void getLabels()
+    public String[] getLabels()
     {
         labels = getStructureNames();
+        return labels;
     }
 
     private void calculationAll(Structure[] structures) throws StructureException 
@@ -51,7 +53,7 @@ public class CalculationVariation
         
         int length = structures.length;
         rmsdMatrix = new double[length][length];
-        for (int i=0; i < length; i ++)
+        for (int i=0; i < length-1; i ++)
         {
             for (int j =0; j < length; j ++)
             {

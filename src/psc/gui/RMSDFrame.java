@@ -9,20 +9,19 @@ package psc.gui;
  *
  * @author zhongxf
  */
-import psc.IO.LoadPDB;
+import psc.Tree.TreeFrame;
 import psc.Table.PSCTable;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,10 +32,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import org.biojava.bio.structure.Atom;
-import org.biojava.bio.structure.Structure;
-import org.biojava.bio.structure.StructureException;
-import org.biojava.bio.structure.StructureTools;
 
 
 /**
@@ -45,44 +40,37 @@ import org.biojava.bio.structure.StructureTools;
  */
 public class RMSDFrame extends JFrame implements ActionListener 
 {
-    public double[][][] structureArrayList;
-    public double[][] pdbXYZ;
-    public double[] xArray;
-    public double[] yArray;
-    public double[] zArray;
-    protected double xSumRmsd;
-    protected double ySumRmsd;
-    protected double zSumRmsd;
     private JTextPane content;
-    private JMenuItem savetableItem;
+    private JMenuItem savetableItem, buildTree;
     private JMenuItem saveASItem;
     private JMenuItem printItem;
     private JMenuItem exitItem;
     private JMenu optionMenu;
-    private Structure[] pdbInput;
-    private String[] strNAme;
-    private LoadPDB ldb;
-    private double RmsdOf2;
     public static double[][] rmsdMartix;
-     private SimpleAttributeSet BOLD_BLACK;
+    private SimpleAttributeSet BOLD_BLACK;
     private String[] headers;
+    private StateOutput message;
     
 
 
     /**
      *
-     * @param pdbInputSet
+     * @param 
      */
-    public RMSDFrame() throws FileNotFoundException, IOException, StructureException 
+    public RMSDFrame(double[][] testmatrix,String[] lables) 
     {
         super();
         setTitle("RMSD Matrix Table");
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        this.rmsdMartix = testmatrix;
+        this.headers = lables;
         initComponents();
+        createContent();
+        content.insertComponent(fuilfilTable(testmatrix,lables));
         show();
     }
 
-    private void initComponents() throws FileNotFoundException, IOException, StructureException 
+    private void initComponents()
     {
         addWindowListener(new WindowAdapter() 
         {
@@ -94,50 +82,45 @@ public class RMSDFrame extends JFrame implements ActionListener
         });
 
         setSize(500, 500);
-        //++++++++++++++ menu ++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        buildTree = new JMenuItem("Build Tree");
         savetableItem = new JMenuItem("Save");
         saveASItem = new JMenuItem("Save as..");
+        saveASItem.setEnabled(false);
         printItem = new JMenuItem("print");
         exitItem = new JMenuItem("exit");
        
         optionMenu = new JMenu("Option");
+        optionMenu.add(buildTree);
+        optionMenu.addSeparator();
         optionMenu.add(savetableItem);
         optionMenu.add(saveASItem);
+        optionMenu.addSeparator();
         optionMenu.add(printItem);
+        optionMenu.addSeparator();
         optionMenu.add(exitItem);
         JMenuBar menuBar = new JMenuBar();
         menuBar.add(optionMenu);
         setJMenuBar(menuBar);
-        
-         createContent();
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-         //=========== ActionListener of menuItem ===============================
+        buildTree.addActionListener(this);
         savetableItem.addActionListener(this);
         saveASItem.addActionListener(this);
         printItem.addActionListener(this);
         exitItem.addActionListener(this);
-       
-        //======================================================================
-
-         //#####################################################################
     }
     
-    private void createContent() throws IOException 
+    private void createContent()
     {   
         content = new JTextPane();
         JScrollPane scrollPane = new JScrollPane(content);
         add(scrollPane, BorderLayout.CENTER);
         
-        setTopPadding(2);
+        setTopPadding(0);
         this.setTextAttribute();
-        setLeftPadding(5);
-        this.insertText("RMSD table", BOLD_BLACK);
-        setLeftPadding(5);
-        content.insertComponent(createTable());
-        content.setEditable(false);
+        setLeftPadding(0);
         
-//         WBIToolkit.main(rmsdMartix,headers);
+        content.setEditable(false);
     }
     protected void insertText(String textString, AttributeSet set)
     {
@@ -187,48 +170,16 @@ public class RMSDFrame extends JFrame implements ActionListener
         }
     }
 
-    private Component createTable() throws IOException {
-        // pdbInput = AlignStruct.structAligns;
-         pdbInput = PSCgui.inputHub.getStructure();
-         strNAme = PSCgui.inputHub.getStructNames();
-        //strNAme = AlignStruct.structNameArray;
-        rmsdMartix = Calculate(pdbInput);
-        int rowNumber = strNAme.length ;
-        
-//        int columnNumber = pdbInput.length ;
-        int columnNumber = strNAme.length ;
-
-        
-        headers = PSCgui.inputHub.getStructNames();
-        System.out.println(headers.length);
-        for (int i = 0; i < headers.length; i++)
-        {
-            System.out.println("headers name: " + headers[i]);
-        }
-        
-        PSCTable RmsdTable = new PSCTable(rowNumber, columnNumber, headers);
-
-      Object[][] tableDatas = new Object[columnNumber][columnNumber];
-      for (int i=0; i < rmsdMartix.length; i++)
-      {
-          for (int j = 0; j < rmsdMartix[i].length; j ++)
-          {
-              tableDatas[i][j] = rmsdMartix[i][j];
-          }
-      }
-      RmsdTable.setRowHeader(strNAme);
-      RmsdTable.setData(tableDatas);
-
-        RmsdTable.setPreferredScrollableViewportSize(RmsdTable.getPreferredSize());
-        JScrollPane matrixTable = new JScrollPane(RmsdTable);        
-        matrixTable.setRowHeaderView(RmsdTable.getRowHeader());     
-        matrixTable.setMaximumSize(new Dimension(400,400));      
-        return matrixTable;
-    }
-
-    private void savetableAction() 
+    private void savetableAction() throws IOException 
     {
+        String fileName = "variation_matrix.csv";
+        String savePath = System.getProperty("user.dir");
         
+        FileWriter writer = new FileWriter(fileName);  
+        writer.write(dataPreparing());  
+        writer.close();  
+//        message.addMessgae(savePath + "/"+fileName);
+        System.out.println(savePath + "/"+fileName); 
     }
 
     private void exitForm() {
@@ -238,95 +189,108 @@ public class RMSDFrame extends JFrame implements ActionListener
     @Override
     public void actionPerformed(ActionEvent ex)
     {
-        //MenuItem item = (MenuItem)e.getSource();
+        if (ex.getSource() == buildTree)
+        {
+            TreeFrame treeFrame = new TreeFrame(rmsdMartix, headers);
+        }
+        
         if(ex.getSource() == savetableItem)
         {
+            try 
+            {
                 savetableAction();
+            } 
+            catch (IOException ex1) 
+            {
+                Logger.getLogger(RMSDFrame.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
-        else if(ex.getSource() == saveASItem)
+        if(ex.getSource() == saveASItem)
         {
 
         }
-        else if (ex.getSource() == printItem)
-        {}
-        else if (ex.getSource() == exitItem)
+        if (ex.getSource() == printItem)
         {
-            exitForm();
+            //TODO
+        }
+        
+        if (ex.getSource() == exitItem)
+        {
+            setVisible(false);
             //System.exit(0);
         }
     }
 
-    public  double[][] Calculate(Structure[] pdbInput) throws IOException 
+    private JScrollPane fuilfilTable(double[][] testmatrix,String[] lables) 
     {
-        double[][] RmsdArray = new double[pdbInput.length][pdbInput.length];
-        ArrayList rmsdArrayList =new ArrayList();
-        Atom[][]  coordsArray = new Atom[pdbInput.length][];
+        int rowNumber = lables.length ;
+        int columnNumber = lables.length ;
+        rmsdMartix = testmatrix;
+
         
-        for (int i =0; i < pdbInput.length; i++)
+        headers = lables;
+        System.out.println(headers.length);
+        for (int i = 0; i < headers.length; i++)
         {
-            coordsArray[i] = StructureTools.getAtomCAArray(pdbInput[i]);
+            System.out.println("headers name: " + headers[i]);
+        }
+        for (int i =0; i <rmsdMartix.length; i ++)
+        {
+            for (int j =0; j < rmsdMartix[i].length; j ++)
+            {
+                System.out.println(rmsdMartix[i][j]);
+            }
+            System.out.println("test");
         }
         
-        int coordsArrayLength = coordsArray.length;
-        
-        for(int j=0; j< coordsArrayLength;j++)
+        PSCTable RmsdTable = new PSCTable(rowNumber, columnNumber, headers);
+
+        Object[][] tableDatas = new Object[columnNumber][columnNumber];
+        for (int i = 0; i < rmsdMartix.length; i++) 
         {
-            int atomLen = coordsArray[j].length;           
-            double sumRmsdInOne =0;
-            
-            for (int k = 0; k < coordsArrayLength; k++)
-            { 
-                if (k == j) 
+            for (int j = 0; j < rmsdMartix[i].length; j++) 
+            {
+                tableDatas[i][j] = rmsdMartix[i][j];
+            }
+        }
+        RmsdTable.setRowHeader(lables);
+        RmsdTable.setData(tableDatas);
+
+        RmsdTable.setPreferredScrollableViewportSize(RmsdTable.getPreferredSize());
+        JScrollPane matrixTable = new JScrollPane(RmsdTable);        
+        matrixTable.setRowHeaderView(RmsdTable.getRowHeader());     
+        matrixTable.setMaximumSize(new Dimension(500,500));      
+        return matrixTable;
+    }
+
+    private String dataPreparing() 
+    {
+        String data = "header";
+        for (int i =0; i < headers.length; i++)
+        {
+            data += ","+headers[i];
+        }
+        
+        data += "\n";
+        
+        for (int j =0; j < headers.length; j++)
+        {
+            data += headers[j];
+            for (int k =0; k < headers.length; k ++)
+            {
+                if (k == headers.length - 1)
                 {
-                    RmsdArray[j][k] = 0;
-                } 
+                     data +="," + rmsdMartix[j][k] + "\n";
+                }
                 else 
                 {
-                    if (k < j) 
-                    {
-                        RmsdArray[j][k] = RmsdArray[k][j];
-                        
-                    } 
-                    else 
-                    {
-                        for (int m = 0; m < atomLen; m++) 
-                        {
-                            try 
-                            {
-                                double[] coords1 = null;
-                                double[] coords2 = null;;
-
-                                coords1 = coordsArray[j][m].getCoords();
-                                coords2 = coordsArray[k][m].getCoords();
-                                // line 298 Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 439 at gui.CalculateRMSD.Calculate(CalculateRMSD.java:298)
-//                           //  Exception in thread "AWT-EventQueue-0" java.lang.ArrayIndexOutOfBoundsException: 258
-                                double atomRmsd = (Math.pow((coords1[0] - coords2[0]), 2)
-                                        + Math.pow((coords1[1] - coords2[1]), 2)
-                                        + Math.pow((coords1[2] - coords2[2]), 2));
-
-                                sumRmsdInOne += atomRmsd;
-                            } 
-                            catch (Exception ex) {
-                                ex.printStackTrace();
-                            }
-                            
-                        }
-                         RmsdOf2 = Math.sqrt( sumRmsdInOne / atomLen);
-                        RmsdArray[j][k] = RmsdOf2;
-                    }
-                }               
-            }
-            
-//            RmsdArray = Convert2RmsdTableArray(rmsdArrayList,pdbInput.length, pdbInput.length);
-        }  
-        for (int m=0; m<RmsdArray.length; m ++)
-        {
-            for (int n=0; n< RmsdArray[m].length; n++)
-            {
-                System.out.println("RmsdArray[m][n]" + RmsdArray[m][n]);
+                   data +="," + rmsdMartix[j][k]; 
+                }
+               
             }
         }
-        return RmsdArray;
+        
+        return data;   
     }
 }
 

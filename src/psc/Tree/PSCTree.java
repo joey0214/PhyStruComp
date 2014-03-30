@@ -12,7 +12,7 @@ import wbitoolkit.phylo.TreeGUI2;
 import wbitoolkit.phylo.TreeIO;
 
 /**
- *
+ *DO NOT USE THIS, JUST A TEST
  * @author zhongxf
  */
 public class PSCTree 

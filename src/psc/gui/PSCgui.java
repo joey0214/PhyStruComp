@@ -19,10 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.*;
+import org.biojava.bio.structure.Structure;
 import org.biojava.bio.structure.StructureException;
 import org.biojava.bio.symbol.IllegalSymbolException;
 import org.jmol.api.JmolViewer;
 import psc.Sequence.SeqAligner;
+import psc.Structure.CalculationVariation;
 import psc.Structure.StructureAligner;
        
 public class PSCgui extends JFrame implements ActionListener 
@@ -236,16 +238,23 @@ public class PSCgui extends JFrame implements ActionListener
         
         if (ace.getSource() == calcuateRmsd )
         {
-            try 
+            Structure[] structures = inputHub.getStructure();
+            if (structures != null)
             {
-                RMSDFrame rmsdFrame = new RMSDFrame();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (StructureException ex) {
+                System.out.println(structures.length);
+            }
+            try {
+                CalculationVariation calcul = new CalculationVariation(structures);
+                double[][] matrix= calcul.getRmsdMatrix();
+                String[] labels = calcul.getLabels();
+                
+                RMSDFrame testFrame = new RMSDFrame(matrix,labels);
+            } 
+            catch (StructureException ex) 
+            {
                 Logger.getLogger(PSCgui.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
         }
         
         if (ace.getSource() ==  functArea  )

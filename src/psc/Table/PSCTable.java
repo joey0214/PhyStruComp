@@ -51,7 +51,8 @@ public class PSCTable extends JTable
     private int calRowWidth(String[] header) 
     {
         int length = 0;
-        int m = -1;
+//        int m = -1;
+        int m = 0;
         for (int i = 0; i < header.length; i++) 
         {
             if (length < header[i].length()) 
