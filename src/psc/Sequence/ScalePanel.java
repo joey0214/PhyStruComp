@@ -33,7 +33,7 @@ class ScalePanel extends JPanel implements  MouseMotionListener,MouseListener
     
     public void paintComponent(Graphics gg)
     {
-        drawScale(gg, alignView.getFirstRes(), alignView.getLastRes(),
+        drawScale(gg, alignView.getStartRes(), alignView.getEndRes(),
                 getWidth(), getHeight());
     }
     
@@ -61,7 +61,7 @@ class ScalePanel extends JPanel implements  MouseMotionListener,MouseListener
     public void mousePressed(MouseEvent me) 
     {
          int x = (me.getX() / alignView.getCharWidth()
-                 + alignView.getFirstRes());
+                 + alignView.getStartRes());
          final  int resI;
          
          if (x >= alignView.getAlignment().getWidth())

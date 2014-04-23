@@ -51,9 +51,9 @@ public class SeqPanel extends JPanel implements  MouseListener,
         int x = mevent.getX(); 
         if (x > seqCanvas.getWidth() + seqCanvas.getWidth())
         {
-            x = seqCanvas.getX() + alignView.getFirstRes();
+            x = seqCanvas.getX() + alignView.getStartSeq();
         }
-        res = (x / alignView.getCharWidth()) + alignView.getFirstRes();
+        res = (x / alignView.getCharWidth()) + alignView.getStartRes();
         return res ;
     }
     
@@ -62,11 +62,11 @@ public class SeqPanel extends JPanel implements  MouseListener,
         int seqI = 0;
         int y =mevent.getY();
         
-        seqI = Math.min(y / alignView.getCharHeight() + alignView.getFirstSeq(), 
+        seqI = Math.min(y / alignView.getCharHeight() + alignView.getStartSeq(), 
                 alignView.getAlignment().getHeight() - 1);
         //有矛盾，需要检查！！！
         //TODO
-        seqI = y / alignView.getCharHeight() + alignView.getFirstSeq();
+        seqI = y / alignView.getCharHeight() + alignView.getStartSeq();
         if (seqI >= alignView.getAlignment().getHeight())
         {
             return -1;
@@ -145,7 +145,7 @@ public class SeqPanel extends JPanel implements  MouseListener,
         }
         Sequence sequence = alignView.getAlignment().getSeqByIndex(findSeq(me));
         int resIndex = findRes(me);
-        int positionI = alignView.getAlignment().getSitePositionAt(seqIndex, resIndex);
+        int positionI = alignView.getAlignment().getSitePosAt(seqIndex, resIndex);
         
         if (positionI == -1)
         {

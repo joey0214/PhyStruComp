@@ -4,10 +4,18 @@
  */
 package test;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import psc.IO.AlignmentIO;
+import psc.IO.FastaIO;
+import psc.IO.SeqIO;
+
 import psc.Sequence.Alignment;
 import psc.Sequence.AlignmentPanel;
 import psc.Sequence.AlignmentView;
@@ -20,9 +28,10 @@ import psc.Sequence.Sequence;
 public class AlignmentVIewTest 
 {
     
-    public static void main(String args[]) 
+    public static void main(String args[]) throws FileNotFoundException, IOException 
     {
-        Sequence testSeq1 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
+        
+        Sequence testSeq1 = new Sequence("test2", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
         Sequence testSeq2 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
         Sequence testSeq3 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
         Sequence testSeq4 = new Sequence("test1", "AAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCAAAACTGCTACCAACCC-ATCTGTGTTTGTGAAAATGACGGACCCACCAGCTCAAGTGTCA");
@@ -35,19 +44,42 @@ public class AlignmentVIewTest
         seqarray[3] = testSeq4;
         seqarray[4] = testSeq5;
         
-//       
+////      
+//        SeqIO seqIO = new SeqIO() {
+//
+//            @Override
+//            public void read(File file) throws FileNotFoundException, IOException {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//            @Override
+//            public void write(File file, Sequence seq) throws IOException {
+//                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            }
+//        }  ;
+//        seqIO.setSeqs(seqarray);
+//        
+//        FastaIO fastaio = new FastaIO();
+//        fastaio.read(new File("./msa.fasta"));
+        
+        
         AlignmentIO testI = new AlignmentIO();
         testI.loadAlignment(seqarray);
-        Alignment testAlignment = testI.getAlignment();
+//        Alignment testAlignment = testI.getAlignment();
         
 //        Alignment testAlignment = toAlignment(seqarray);
         
-        if (testAlignment != null)
-        {
-            System.out.println("true");
-        }
+//        if (testAlignment != null)
+//        {
+//            System.out.println("true");
+//        }
         
-        AlignmentView testView = new AlignmentView(testAlignment);
+        testI.read(new File("./msf.fasta"));
+        
+        System.out.println((testI.getAlignment()));
+//        for (int i =0; i < )
+        
+        AlignmentView testView = new AlignmentView(testI.getAlignment());
         
         if (testView == null)
         {
@@ -65,7 +97,10 @@ public class AlignmentVIewTest
          mainFrame.add(alignmentPanel);
          mainFrame.setSize(800, 800);
          mainFrame.setVisible(true);
+         
      }
+    
+    
 
     private static Alignment toAlignment(Sequence[] seqarray) 
     {
@@ -107,8 +142,8 @@ public class AlignmentVIewTest
         ali.setLength(length);
         ali.setNoOfSeq(noOfSeq);
         ali.setIndex(index);
-        ali.setSeqNmaes(names);
-        ali.setNameMapSeq(nameMap);
+//        ali.setSeqNmaes(names);
+//        ali.setNameMapSeq(nameMap);
         ali.setSeqs(seqs);
         ali.gapProfile();
         

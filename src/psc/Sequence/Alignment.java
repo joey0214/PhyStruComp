@@ -7,7 +7,6 @@ package psc.Sequence;
 import java.util.ArrayList;
 import java.util.HashMap;
 //import org.biojava.bio.seq.Sequence;
-import org.biojava3.core.sequence.ProteinSequence;
 
 /**
  *
@@ -15,229 +14,229 @@ import org.biojava3.core.sequence.ProteinSequence;
  */
 public class Alignment 
 {
-    private int seqsCount;
-    private int gapCount;
+   private int length;
+    private int noOfSeq;
     private char gap='-';
-    private int length ;
-    private ArrayList[] gapMap ;
     private ArrayList<Sequence> seqs;
-    private int[] gapFreeIndex;
+    private String[] names;
     private int[] seqIndex;
     private int[] columnIndex;
-    private HashMap<String,Sequence> nameMapSeq ;
-    private String[] seqNames ;
-    private int noOfSeq;
+    private int[] gapFreeIndex; //the index of columns which have no gap
+    private ArrayList[] gapMap;
+    private HashMap<String,Sequence> nameMap;
     
-    public void gapProfile()
-    {
-        gapMap =new ArrayList[seqsCount];
-        boolean[] notGaps = new boolean[length];
-        for (int i =0; i <length; i++)
-        {
-            notGaps[i] =true;
-            
+    /**
+     * explore gap index and non-gap index
+     */
+    public void gapProfile(){
+        gapMap=new ArrayList[noOfSeq];
+        boolean[] nogaps=new boolean[length];
+        for(int i=0;i<length;i++){
+            nogaps[i]=true;
         }
-        int gapsCount =0;
-        for (int i =0; i <seqsCount; i ++)
-        {
-            ArrayList gapsArrayList = new ArrayList();
-            char[] seqChar = seqs.get(i).getSeqChar();
-            for (int j =0; j <length; j ++)
-            {
-                if (seqChar[j]<'A' || seqChar[j]>'Z')
-                {
-                    gapsArrayList.add(seqChar[j]);
-                    if (notGaps[j])
-                    {
-                        notGaps[j] = false;
-                        gapsCount +=1;
+        int gapNum=0;
+        for(int i=0;i<noOfSeq;i++){
+            ArrayList gaps=new ArrayList();
+            char[] seq=seqs.get(i).getSeqChar();
+            for(int j=0;j<length;j++){
+                if(seq[j]<'A' || seq[j]>'Z'){
+                    gaps.add(j);
+                    if(nogaps[j]){
+                        nogaps[j]=false;
+                        gapNum+=1;
                     }
                 }
             }
+            gaps.trimToSize();
+            gapMap[i]=gaps;
         }
-        
-        gapFreeIndex = new int[length-gapsCount];
+        gapFreeIndex=new int[length-gapNum];
         int j=0;
-        for (int i=0; i <length; i++)
-        {
-            if (notGaps[i])
-            {
-                gapFreeIndex[j++] = i;
-                
+        for(int i=0;i<length;i++){
+            if(nogaps[i]){
+                gapFreeIndex[j++]=i;
             }
         }
     }
     
-    public Sequence getSeqByID(int idI)
-    {
-        if (idI<0 || idI >= seqs.size())
-        {
-            return null;
+    public int getSitePosAt(int seqIndex, int colIndex){
+        int id=getSeqByIndex(seqIndex).getId();
+        ArrayList gap=gapMap[id];
+        if(gap.contains(colIndex))
+            return -1;
+        int gapNum=0;
+        for(Object i:gap){
+            int g=(Integer)i;
+            if(g<=colIndex){
+                gapNum+=1;
+            }
         }
-        
-        return seqs.get(idI);
+        return colIndex-gapNum+1;
     }
     
-    public Sequence getSeqByName(String name)
-    {
-        return nameMapSeq.get(name);
-    }
-    
-    public Sequence getSeqByIndex(int ind)
-    {
-        if (ind<0 || ind >= seqs.size())
-        {
-            return null;
+    public String getGapFreeSeq(Sequence seq){
+        char[] ss=seq.getSeqChar();
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<gapFreeIndex.length;i++){
+            sb.append(ss[gapFreeIndex[i]]);
         }
-        return seqs.get(seqIndex[ind]);
+        return sb.toString();
     }
     
-    public int getLength()
-    {
+    public char getResAt(int seqIndex, int resIndex){
+        return getSeqByIndex(seqIndex).getSeqChar()[resIndex];
+    }
+    
+    public Sequence getSeqByName(String name){
+        return nameMap.get(name);
+    }
+    
+    public Sequence getSeqById(int id){
+        if(id<0 || id>=seqs.size())
+            return null;
+        return seqs.get(id);
+    }
+    
+    public Sequence getSeqByIndex(int i){
+        if(i<0 || i>=seqs.size())
+            return null;
+        return seqs.get(seqIndex[i]);
+    }
+
+    /**
+     * @return the length
+     */
+    public int getLength() {
         return length;
     }
-    
-    public void setLength(int newLength)
-    {
-        this.length = newLength;
+
+    /**
+     * @param length the length to set
+     */
+    public void setLength(int length) {
+        this.length = length;
     }
     
-    public int getWidth()
-    {
+    /**
+     * @return the length
+     */
+    public int getWidth() {
         return length;
     }
-    
-    public void setwidth(int newWidth)
-    {
-        this.length = newWidth;
+
+    /**
+     * @param length the length to set
+     */
+    public void setWidth(int length) {
+        this.length = length;
     }
     
-    public int getNoOfSeq() 
-    {
+
+    /**
+     * @return the noOfSeq
+     */
+    public int getNoOfSeq() {
         return noOfSeq;
     }
-    
-    public void setNoOfSeq(int noOfSeq) 
-    {
+
+    /**
+     * @param noOfSeq the noOfSeq to set
+     */
+    public void setNoOfSeq(int noOfSeq) {
         this.noOfSeq = noOfSeq;
     }
     
-    public int getSeqCount()
-    {
-        return seqsCount;
+    /**
+     * @return the noOfSeq
+     */
+    public int getHeight() {
+        return noOfSeq;
     }
-    
-    public void setSeqCount(int newSeqCount)
-    {
-        this.seqsCount = newSeqCount;
+
+    /**
+     * @param noOfSeq the noOfSeq to set
+     */
+    public void setHeight(int noOfSeq) {
+        this.noOfSeq = noOfSeq;
     }
-    
-    public String[] getSeqNames()
-    {
-        return seqNames;
+
+    /**
+     * @return the names
+     */
+    public String[] getNames() {
+        return names;
     }
-    
-    public void setSeqNmaes(String[] newnames)
-    {
-        this.seqNames = newnames;
+
+    /**
+     * @param names the names to set
+     */
+    public void setNames(String[] names) {
+        this.names=names;
     }
-    
-    public int getHeight()
-    {
-        return seqsCount;
-    }
-    
-    public void setHeight(int seqsnumber)
-    {
-        this.seqsCount = seqsnumber;
-    }
-    
-    public int[] getIndex()
-    {
-        return seqIndex;
-    }
-    
-    public void setIndex(int[] newindex)
-    {
-        this.seqIndex = newindex;
-    }
-    
-    public HashMap<String, Sequence> getNameMapSeq()
-    {
-        return nameMapSeq;
-    }
-    
-    public void setNameMapSeq(HashMap<String, Sequence>nameMap)
-    {
-        this.nameMapSeq = nameMap;
-    }
-    
-    public int[] getColumnIndex()
-    {
-        return columnIndex;
-    }
-    
-    public void setColumnIndex(int[] coluindex)
-    {
-        this.columnIndex = coluindex;
-    }
-    
-    public ArrayList<Sequence> getSeqs()
-    {
+
+
+    /**
+     * @return the seqs
+     */
+    public ArrayList<Sequence> getSeqs() {
         return seqs;
     }
-    
-    public void setSeqs(ArrayList<Sequence> newseqs)
-    {
-        this.seqs = newseqs;
+
+    /**
+     * @param seqs the seqs to set
+     */
+    public void setSeqs(ArrayList<Sequence> seqs) {
+        this.seqs = seqs;
     }
-    
-    public int[] getGapFreeIndex()
-    {
+
+
+    /**
+     * @return the gapFreeIndex
+     */
+    public int[] getGapFreeIndex() {
         return gapFreeIndex;
     }
-    
-    public String getGapFreeSeq(Sequence seq)
-    {
-        char[] ssCs = seq.getSeqChar();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0; i <gapFreeIndex.length; i++)
-        {
-            stringBuilder.append(ssCs[gapFreeIndex[i]]);
-        }
-        return stringBuilder.toString();
+
+    /**
+     * @return the index
+     */
+    public int[] getIndex() {
+        return seqIndex;
     }
-    
-    public void getGapFreeSeq(ArrayList<Sequence> seqlist)
-    {
-        for (int i=0; i<seqlist.size();i++)
-        {
-            //TODO
-        }
+
+    /**
+     * @param index the index to set
+     */
+    public void setIndex(int[] index) {
+        this.seqIndex = index;
     }
-    
-    public char getResAt(int seqindex,int resindex)
-    {
-        return getSeqByIndex(seqindex).getSeqChar()[resindex];
+
+    /**
+     * @return the nameMap
+     */
+    public HashMap<String,Sequence> getNameMap() {
+        return nameMap;
     }
-    
-    public int getSitePositionAt(int seqindex, int coluIndex)
-    {
-        int id = getSeqByIndex(seqindex).getId();
-        ArrayList gap = gapMap[id];
-        if(gap.contains(coluIndex))
-        {
-            return -1;
-        }
-        int gapNum =0;
-        for (Object i:gap)
-        {
-            int g =(Integer)i;
-            if (g<= coluIndex)
-            {
-                gapNum +=1;
-            }
-        }
-        return (coluIndex-gapNum+1);
+
+    /**
+     * @param nameMap the nameMap to set
+     */
+    public void setNameMap(HashMap<String,Sequence> nameMap) {
+        this.nameMap = nameMap;
     }
+
+    /**
+     * @return the columnIndex
+     */
+    public int[] getColumnIndex() {
+        return columnIndex;
+    }
+
+    /**
+     * @param columnIndex the columnIndex to set
+     */
+    public void setColumnIndex(int[] columnIndex) {
+        this.columnIndex = columnIndex;
+    }
+
 }

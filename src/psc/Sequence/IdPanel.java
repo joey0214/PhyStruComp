@@ -57,6 +57,8 @@ class IdPanel extends  JPanel implements  MouseListener,
        
        int seqI = alignPanel.seqPanel.findSeq(me);
        
+       if (seqI <0) return;
+       
        if ((alignView.getSelectionGroup() == null) ||
                (!me.isControlDown() && !me.isShiftDown()
                && alignView.getSelectionGroup() != null))
@@ -74,7 +76,7 @@ class IdPanel extends  JPanel implements  MouseListener,
        }
        else 
        {
-           selectSeq(lastid);
+           selectSeq(seqI);
        }
        
        alignPanel.repaint();
@@ -123,7 +125,7 @@ class IdPanel extends  JPanel implements  MouseListener,
         }
         
         Sequence sequence = alignView.getAlignment().getSeqByIndex(seqI);
-        this.setToolTipText((seqI - 1)+": " +sequence.getSeqName()
+        this.setToolTipText((seqI + 1)+": " +sequence.getSeqName()
                 + " " + sequence.getSeqDescriotion());
         
     }

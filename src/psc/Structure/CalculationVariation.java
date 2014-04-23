@@ -24,6 +24,19 @@ public class CalculationVariation
     private double[][] rmsdMatrix;
     private String[] labels;
 
+    public CalculationVariation(Structure[] structures, String[] filesName) throws StructureException 
+    {
+        for (int i =0; i < structures.length; i ++)
+        {
+            int length = (getAllAtom(structures[i])).size();
+           //String name = structures[i].getName();
+           System.out.println(filesName[i] + " --- "+length);
+        }
+        this.structures = structures;
+        calculationAll(structures);
+        
+    }
+
     public void readIN(Structure[] structureIN) throws StructureException
     {
         this.structures = structureIN;
@@ -50,10 +63,16 @@ public class CalculationVariation
 
     private void calculationAll(Structure[] structures) throws StructureException 
     {
+        for (int i =0; i < structures.length; i ++)
+        {
+            int length = (getAllAtom(structures[i])).size();
+           String name = structures[i].getName();
+           System.out.println(name + " --- "+length);
+        }
         
         int length = structures.length;
         rmsdMatrix = new double[length][length];
-        for (int i=0; i < length-1; i ++)
+        for (int i=0; i < length; i ++)
         {
             for (int j =0; j < length; j ++)
             {
@@ -64,20 +83,27 @@ public class CalculationVariation
                 else 
                 {
                     Structure structure01 = structures[i];
-                    Structure structure02 = structures[i + 1];
+                    Structure structure02 = structures[j];
 
-                    List<Atom> atomList1 = getAllAtom(structure01);
-                    List<Atom> atomList2 = getAllAtom(structure02);
+                    if (i > j)
+                    {
+                        rmsdMatrix[i][j]= rmsdMatrix[j][i];
+                    }
+                    else 
+                    {
+                        List<Atom> atomList1 = getAllAtom(structure01);
+                        List<Atom> atomList2 = getAllAtom(structure02);
 
-                    Atom[] atomSet1 = atomList1.toArray(new Atom[atomList1.size()]);
-                    Atom[] atomSet2 = atomList2.toArray(new Atom[atomList2.size()]);
+                        Atom[] atomSet1 = atomList1.toArray(new Atom[atomList1.size()]);
+                        Atom[] atomSet2 = atomList2.toArray(new Atom[atomList2.size()]);
 
-                    SVDSuperimposer superimposer = new SVDSuperimposer(atomSet1, atomSet2);
-                    Calc.rotate(structure02, superimposer.getRotation());
-                    Calc.shift(structure02, superimposer.getTranslation());
+                        SVDSuperimposer superimposer = new SVDSuperimposer(atomSet1, atomSet2);
+                        Calc.rotate(structure02, superimposer.getRotation());
+                        Calc.shift(structure02, superimposer.getTranslation());
 
-                    double rmsd = SVDSuperimposer.getRMS(atomSet1, atomSet2);
-                    rmsdMatrix[i][j] = rmsd;
+                        double rmsd = SVDSuperimposer.getRMS(atomSet1, atomSet2);
+                        rmsdMatrix[i][j] = rmsd;
+                    }
                 }
             }
         }
@@ -99,20 +125,28 @@ public class CalculationVariation
                 else 
                 {
                     Structure structure01 = structures[i];
-                    Structure structure02 = structures[i + 1];
+                    Structure structure02 = structures[j];
+                    if (i > j)
+                    {
+                        rmsdMatrix[i][j]= rmsdMatrix[j][i];
+                    }
+                    else 
+                    {
+                        List<Atom> atomList1 = getAllAtom(structure01);
+                        List<Atom> atomList2 = getAllAtom(structure02);
 
-                    List<Atom> atomList1 = getAllAtom(structure01);
-                    List<Atom> atomList2 = getAllAtom(structure02);
+                        Atom[] atomSet1 = atomList1.toArray(new Atom[atomList1.size()]);
+                        Atom[] atomSet2 = atomList2.toArray(new Atom[atomList2.size()]);
 
-                    Atom[] atomSet1 = atomList1.toArray(new Atom[atomList1.size()]);
-                    Atom[] atomSet2 = atomList2.toArray(new Atom[atomList2.size()]);
+                        SVDSuperimposer superimposer = new SVDSuperimposer(atomSet1, atomSet2);
+                        Calc.rotate(structure02, superimposer.getRotation());
+                        Calc.shift(structure02, superimposer.getTranslation());
 
-                    SVDSuperimposer superimposer = new SVDSuperimposer(atomSet1, atomSet2);
-                    Calc.rotate(structure02, superimposer.getRotation());
-                    Calc.shift(structure02, superimposer.getTranslation());
+                        double rmsd = SVDSuperimposer.getRMS(atomSet1, atomSet2);
+                        rmsdMatrix[i][j] = rmsd;
+                    }
 
-                    double rmsd = SVDSuperimposer.getRMS(atomSet1, atomSet2);
-                    rmsdMatrix[i][j] = rmsd;
+                    
                 }
             }
         }

@@ -160,35 +160,35 @@ public class AlignmentPanel extends  JSplitPane implements AdjustmentListener
      @Override
     public void adjustmentValueChanged(AdjustmentEvent ae) 
     {
-       int oldX = alignView.getFirstRes();
-        int oldY = alignView.getFirstSeq();
+       int oldX = alignView.getStartRes();
+        int oldY = alignView.getStartSeq();
 
         if (ae.getSource() == hscroll)
         {
             int x = hscroll.getValue();
-            alignView.setFirstRes(x);
-            alignView.setLastRes((x + (seqPanel.seqCanvas.getWidth() / alignView.getCharWidth())) - 1);
+            alignView.setStartRes(x);
+            alignView.setEndRes((x + (seqPanel.seqCanvas.getWidth() / alignView.getCharWidth())) - 1);
         }
 
         if (ae.getSource() == vscroll){
             int offy = vscroll.getValue();
-            alignView.setFirstSeq(offy);
-            alignView.setLastSeq(offy + (seqPanel.seqCanvas.getHeight() / alignView.getCharHeight()));
+            alignView.setStartSeq(offy);
+            alignView.setEndSeq(offy + (seqPanel.seqCanvas.getHeight() / alignView.getCharHeight()));
       
         }
 
 
-        int scrollX = alignView.firstRes - oldX;
-        int scrollY = alignView.firstSeq - oldY;
+        int scrollX = alignView.startSeq - oldX;
+        int scrollY = alignView.endSeq - oldY;
 
     
         // Make sure we're not trying to draw a panel
         // larger than the visible window
-        if (scrollX > alignView.lastRes - alignView.firstRes){
-            scrollX = alignView.lastRes - alignView.firstRes;
+        if (scrollX > alignView.endRes - alignView.startRes){
+            scrollX = alignView.endRes - alignView.startRes;
         }
-        else if (scrollX < alignView.firstRes - alignView.lastRes){
-            scrollX = alignView.firstRes - alignView.lastRes;
+        else if (scrollX < alignView.startRes - alignView.endRes){
+            scrollX = alignView.startRes - alignView.endRes;
         }
 
         if (scrollX != 0 || scrollY != 0){
@@ -210,9 +210,9 @@ public class AlignmentPanel extends  JSplitPane implements AdjustmentListener
        int width = alignView.getAlignment().getWidth();
        int height = alignView.getAlignment().getHeight();
        
-       alignView.setLastRes((x + (seqPanel.seqCanvas.getWidth() / 
+       alignView.setEndRes((x + (seqPanel.seqCanvas.getWidth() / 
                alignView.charWidth)) -1);
-       alignView.setLastSeq((x + (seqPanel.seqCanvas.getHeight() / 
+       alignView.setEndSeq((x + (seqPanel.seqCanvas.getHeight() / 
                alignView.getCharHeight())) );
        
        hextent = seqPanel.seqCanvas.getWidth() / alignView.charWidth;
@@ -255,7 +255,7 @@ public class AlignmentPanel extends  JSplitPane implements AdjustmentListener
     @Override
     public void paintComponent(Graphics g)
     { 
-        setScrollValues(alignView.getFirstRes(), alignView.getFirstSeq());
+        setScrollValues(alignView.getStartRes(), alignView.getStartSeq());
     
     }
     

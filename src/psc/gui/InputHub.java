@@ -76,7 +76,8 @@ public class InputHub
         this.structureList = structureIO.getStructures();
         this.proteinSequencesList = structureIO.getProteinSequences();
         this.aaSeqList = structureIO.getAASequences();
-        this.structnames = structureIO.getStructureNames();
+        //this.structnames = structureIO.getStructureNames();
+        getFilesName();
     }
     
     public Structure[] getStructure()
@@ -221,10 +222,14 @@ public class InputHub
 
     private void extractFiles() throws IOException 
     {
+//        for (int i=0; i < inFiles.length; i ++)
+//        {
+//            
+//        }
         structureIO.readPDBFiles(inFiles);
         this.proteinSequencesList = structureIO.getProteinSequences();
         this.structureList = structureIO.getStructures();
-        this.structnames = structureIO.getStructureNames();
+        //this.structnames = structureIO.getStructureNames();
     }
 
     private void visulazation() throws IllegalSymbolException 
@@ -292,18 +297,24 @@ public class InputHub
     public String[] getFilesName()
     {
         String[] filesname = new String[inFiles.length];
+        this.structnames = new String[inFiles.length];
         if (inFiles != null && inFiles.length != 0)
         {
             for (int i = 0; i < inFiles.length; i++) 
             {
                 filesname[i] = inFiles[i].getName();
+                String[] tmpstring = (inFiles[i].getName()).split("\\.");
+                System.out.println(tmpstring.length + "                  ++++test");
+                 this.structnames[i] = tmpstring[0];
             }
         }
         else 
         {
             System.out.println("Fatal error: check inpur files!");
         }
-        return filesname;
+//        this.structnames = filesname;
+//        return filesname;
+        return structnames;
     }
 
     //update chengs in protein sequences alignment in translatedSequencePanel

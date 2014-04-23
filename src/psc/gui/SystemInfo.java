@@ -27,9 +27,10 @@ import test.SystemUtilTest;
  */
 public class SystemInfo extends JDialog
 {
-    public SystemInfo(JFrame parent) 
+    public SystemInfo() 
     {
-        super(parent, "System Information", true);
+//        super(parent, "System Information", true);
+        JFrame testFrame = new JFrame("ystem Information");
 
         int cpuCount = Runtime.getRuntime().availableProcessors();
         long totalMemory = Runtime.getRuntime().totalMemory();

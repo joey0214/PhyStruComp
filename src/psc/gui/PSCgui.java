@@ -244,11 +244,11 @@ public class PSCgui extends JFrame implements ActionListener
                 System.out.println(structures.length);
             }
             try {
-                CalculationVariation calcul = new CalculationVariation(structures);
+                CalculationVariation calcul = new CalculationVariation(structures,inputHub.getFilesName());
                 double[][] matrix= calcul.getRmsdMatrix();
-                String[] labels = calcul.getLabels();
+//                String[] labels = calcul.getLabels();
                 
-                RMSDFrame testFrame = new RMSDFrame(matrix,labels);
+                RMSDFrame testFrame = new RMSDFrame(matrix,inputHub.getFilesName());
             } 
             catch (StructureException ex) 
             {

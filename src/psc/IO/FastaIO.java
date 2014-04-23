@@ -71,14 +71,14 @@ public class FastaIO extends SeqIO
     @Override
     public void write(File file, Sequence seq) throws IOException 
     {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //
     }
 
     private void addSequence(ArrayList seqs, int id, String title, String seq) 
     {
         int s = title.indexOf(" ");
         String name = s>0 ? title.substring(0, s): title ;
-        String desc = s>0 ? title.substring(s) : " ";
+        String desc = s>0 ? title.substring(s) : "";
         Sequence aseq=new Sequence(id,name,seq);
         aseq.setSeqDescription(desc);
         seqs.add(aseq);

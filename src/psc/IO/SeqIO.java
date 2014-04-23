@@ -53,4 +53,19 @@ public abstract  class SeqIO
     {
         this.seqs = seqs;
     }
+
+//    public void setSeqs(Sequence[] seqarray) 
+//    {
+////        List<Sequence> tmplist = new List<Sequence>();
+//        for (int i =0; i < seqarray.length; i++)
+//        {
+//            this.seqs.set(i, seqarray[i]);
+//        }
+////        this.seqs = seqarray;
+//    }
+
+//    public void setSeqs(Sequence[] seqarray) 
+//    {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 }

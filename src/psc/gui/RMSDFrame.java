@@ -230,27 +230,30 @@ public class RMSDFrame extends JFrame implements ActionListener
         
         headers = lables;
         System.out.println(headers.length);
-        for (int i = 0; i < headers.length; i++)
-        {
-            System.out.println("headers name: " + headers[i]);
-        }
-        for (int i =0; i <rmsdMartix.length; i ++)
-        {
-            for (int j =0; j < rmsdMartix[i].length; j ++)
-            {
-                System.out.println(rmsdMartix[i][j]);
-            }
-            System.out.println("test");
-        }
+//        for (int i = 0; i < headers.length; i++)
+//        {
+//            System.out.println("headers name: " + headers[i]);
+//        }
+//        for (int i =0; i <rmsdMartix.length; i ++)
+//        {
+//            for (int j =0; j < rmsdMartix[i].length; j ++)
+//            {
+//                System.out.println(rmsdMartix[i][j]);
+//            }
+//            System.out.println("test");
+//        }
         
         PSCTable RmsdTable = new PSCTable(rowNumber, columnNumber, headers);
 
+        System.out.println("testmatrix.length        " + testmatrix.length);
+        System.out.println("testmatrix.length        " + testmatrix[0].length);
+        
         Object[][] tableDatas = new Object[columnNumber][columnNumber];
-        for (int i = 0; i < rmsdMartix.length; i++) 
+        for (int i = 0; i < testmatrix.length; i++) 
         {
-            for (int j = 0; j < rmsdMartix[i].length; j++) 
+            for (int j = 0; j < testmatrix[i].length; j++) 
             {
-                tableDatas[i][j] = rmsdMartix[i][j];
+                tableDatas[i][j] = testmatrix[i][j];
             }
         }
         RmsdTable.setRowHeader(lables);
