@@ -11,8 +11,6 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import org.biojava.bio.structure.StructureException;
 
-
-
 /**
  *
  * @author zhongxf
