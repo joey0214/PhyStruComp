@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import psc.Sequence.Sequence;
+import com.joey.wuhan.phystrucomp.Sequence.Sequence;
 
 /**
  *

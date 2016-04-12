@@ -4,13 +4,7 @@
  */
 package com.joey.wuhan.phystrucomp.SecStructSeq;
 
-import com.joey.wuhan.phystrucomp.gui.PSCgui;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -23,7 +17,6 @@ import org.biojava.nbio.structure.StructureException;
 import org.biojava.nbio.structure.align.util.AtomCache;
 import org.biojava.nbio.structure.io.FileParsingParameters;
 import org.biojava.nbio.structure.io.PDBFileReader;
-import com.joey.wuhan.phystrucomp.WebService.WebService;
 
 /**
  *
@@ -67,7 +60,9 @@ public class SecStruct
                         if (group instanceof AminoAcid) 
                         {
                             AminoAcid aa = (AminoAcid) group;
+                            //not support this anymore
                             Map sec = aa.getSecStruc();
+                          
                             secseq += charDecide(sec.get("PDB_AUTHOR_ASSIGNMENT"));
                         }
                     }

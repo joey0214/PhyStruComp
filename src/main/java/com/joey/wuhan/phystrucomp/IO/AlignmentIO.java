@@ -19,7 +19,7 @@ import com.joey.wuhan.phystrucomp.Sequence.Sequence;
 
 
 //change to abstract 0407
-public abstract class AlignmentIO extends SeqIO
+public  class AlignmentIO extends SeqIO
 {
     private Alignment ali;
 

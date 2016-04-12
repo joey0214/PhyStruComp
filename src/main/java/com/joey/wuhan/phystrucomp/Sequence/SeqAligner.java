@@ -85,7 +85,7 @@ public class SeqAligner
         ProteinSequence[] tmpProses = new ProteinSequence[aaAlignedList.size()];
         for (int i = 0; i < aaAlignedList.size(); i++)
         {
-            tmpProses[i] = new ProteinSequence(aaAlignedList.get(i).toString());
+            tmpProses[i] = new ProteinSequence((String)aaAlignedList.hashCode(i));
             AccessionID tmpID = new AccessionID(proseqnames[i]);
             tmpProses[i].setAccession(tmpID); 
         }

@@ -39,7 +39,7 @@ import org.biojava.bio.symbol.IllegalAlphabetException;
 import org.biojava.bio.symbol.IllegalSymbolException;
 import org.biojava.bio.symbol.Symbol;
 import org.biojava.bio.symbol.SymbolList;
-import org.biojava.nbio.ronn.ModelLoader;
+//import org.biojava.nbio.ronn.ModelLoader;
 
 /**
  *
@@ -78,13 +78,13 @@ public class PairAlign
                 System.out.println("\t" + result.getScore());
                 
                 //output the alignment
-                SymbolList alignment = result.symbolListForLabel(StatePath.SEQUENCE);
+                SymbolList alignment = result.symbolListForLabel((String)StatePath.SEQUENCE);
                 System.out.println(alignment.getAlphabet());
                 SymbolTokenization tok = alignment.getAlphabet().getTokenization("default");
                 System.out.println(tok.tokenizeSymbolList(alignment));
                 
                 //output the state path
-                alignment = result.symbolListForLabel(StatePath.STATES);
+                alignment = result.symbolListForLabel((String)StatePath.STATES);
                 System.out.println(alignment.getAlphabet());
                 tok = alignment.getAlphabet().getTokenization("default");
                 System.out.println(tok.tokenizeSymbolList(alignment));
@@ -202,8 +202,8 @@ public class PairAlign
 
     private static void tokenizePath(StatePath path) throws IllegalSymbolException, BioException 
     {
-        SymbolList states = path.symbolListForLabel(StatePath.STATES);
-        SymbolList symbols = path.symbolListForLabel(StatePath.SEQUENCE);
+        SymbolList states = path.symbolListForLabel((String)StatePath.STATES);
+        SymbolList symbols = path.symbolListForLabel((String)StatePath.SEQUENCE);
         StringBuilder queryString = new StringBuilder();
         StringBuilder targetString = new StringBuilder();
         StringBuilder pathString = new StringBuilder();

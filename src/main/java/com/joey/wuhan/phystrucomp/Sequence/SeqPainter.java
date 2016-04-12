@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import org.biojava.bio.BioRuntimeException;
+import org.biojava.bio.alignment.SimpleAlignment;
 import org.biojava.bio.gui.sequence.AlignmentRenderer;
 import org.biojava.bio.gui.sequence.GUITools;
 import org.biojava.bio.gui.sequence.LabelledSequenceRenderer;
@@ -31,7 +32,6 @@ import org.biojava.bio.seq.Sequence;
 import org.biojava.bio.seq.io.SymbolTokenization;
 import org.biojava.bio.symbol.IllegalSymbolException;
 import org.biojava.bio.symbol.Location;
-import org.biojava.bio.symbol.SimpleAlignedSequence;
 import org.biojava.bio.symbol.SymbolList;
 import org.biojava3.core.sequence.ProteinSequence;
 
